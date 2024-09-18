@@ -1,0 +1,132 @@
+\documentclass[12pt]{book} 
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc}
+\usepackage[slovene]{babel} 	
+\usepackage{amsmath} 
+\usepackage{amssymb} 
+\usepackage{amsthm}
+\usepackage{bbm}
+\usepackage{lmodern}
+\usepackage{csquotes}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{enumitem}
+\usepackage{biblatex}           
+\usepackage{hyperref}   
+\usepackage{geometry}
+\usepackage{float} 
+
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.17}
+
+\geometry{
+    a4paper,
+    left=30mm,
+    right=30mm,
+    top=30mm,
+    bottom=40mm
+}
+
+\setlength{\parskip}{0.4em}
+\linespread{1.2}
+
+\makeatletter
+\renewcommand{\maketitle}{
+  \begin{titlepage}
+    \begin{center}
+      \vspace*{25mm} 
+      \Huge\@title\par 
+      \vspace{20mm} 
+      \large\@author \\
+      \vspace{140mm} 
+      \large\@date\par 
+    \end{center}
+  \end{titlepage}
+}
+\makeatother
+
+\usepackage{fancyhdr}
+\makeatletter
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt} 
+  \renewcommand{\footrulewidth}{0pt}
+}
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO,RE]{\MakeUppercase{\leftmark}}
+\fancyfoot{}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\headrulewidth}{0.4pt} 
+
+\def\n{\noindent}
+\def\s{\vspace{10pt}}
+
+
+\theoremstyle{definition}
+\newtheorem{definicija}{Definicija}
+
+\theoremstyle{plain}
+\newtheorem{izrek}{Izrek}
+
+\theoremstyle{plain}
+\newtheorem{trditev}{Trditev}
+
+\theoremstyle{plain}
+\newtheorem{posledica}{Posledica}
+
+\theoremstyle{remark}
+\newtheorem*{opomba}{Opomba}
+
+\usepackage{thmtools}
+\declaretheoremstyle[
+    spaceabove=10pt,
+    spacebelow=10pt,
+    bodyfont=\normalfont,
+    headfont=\bfseries,
+    postheadspace=0.5em,
+    qed=$\lozenge$ 
+]{example}
+\declaretheorem[style=example, unnumbered]{zgled}
+
+
+\usepackage{filemod}
+\title{\Huge Verjetnost 1}
+\author{\small Zapiski po predavanjih izr. prof. dr. Jaka Smrekarja \\ Napisal: \href{https://github.com/jonpascal/VIS-zapiski-predavanj}{Jon Pascal Miklavčič}}
+\date{\filemodprintdate{\jobname}}
+
+\makeatletter
+\pgfmathdeclarefunction{erf}{1}{%
+  \begingroup
+    \pgfmathparse{#1 > 0 ? 1 : -1}%
+    \edef\sign{\pgfmathresult}%
+    \pgfmathparse{abs(#1)}%
+    \edef\x{\pgfmathresult}%
+    \pgfmathparse{1/(1+0.3275911*\x)}%
+    \edef\t{\pgfmathresult}%
+    \pgfmathparse{%
+      1 - (((((1.061405429*\t -1.453152027)*\t) + 1.421413741)*\t 
+      -0.284496736)*\t + 0.254829592)*\t*exp(-(\x*\x))}%
+    \edef\y{\pgfmathresult}%
+    \pgfmathparse{(\sign)*\y}%
+    \pgfmath@smuggleone\pgfmathresult%
+  \endgroup
+}
+\makeatother
+
+
+\begin{document}
+
+\frontmatter
+
+\maketitle
+
+\tableofcontents
+
+\mainmatter
+
+\end{document}

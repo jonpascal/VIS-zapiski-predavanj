@@ -95,7 +95,7 @@
 
 
 \usepackage{filemod}
-\title{\Huge Verjetnost 1}
+\title{\Huge Verjetnost in statistika}
 \author{\small Zapiski po predavanjih izr. prof. dr. Jaka Smrekarja \\ Napisal: \href{https://github.com/jonpascal/VIS-zapiski-predavanj}{Jon Pascal Miklavčič}}
 \date{\filemodprintdate{\jobname}}
 
@@ -128,5 +128,635 @@
 \tableofcontents
 
 \mainmatter
+
+\part{Verjetnost}
+
+\chapter{Slučajni vektorji}
+
+\section{Slučajni vektorji}
+
+\textbf{Spomnimo se:} 
+
+\n \emph{Slučajna spremenljivka} na je taka funkcija $X: \Omega \to \mathbb{R}$, na verejetnostnem prostoru $(\Omega, \mathcal{F}, P)$, za katero so množice (praslike): 
+$$
+\{\omega \in \Omega: X(\omega) \leq x\}
+$$
+v $\mathcal{F}$, se pravi dogodki za vsak $x \in \mathbb{R}$
+
+\n Oznaka:
+$$
+\{\omega \in \Omega: X(\omega) \leq x\} \equiv \{\omega \in \Omega \mid X(\omega) \in(-\infty, x]\} \equiv X^{-1}\left((-\infty, x]\right)
+$$
+
+\n Posledično je za slučajno spremenljivko $X$ definirana \emph{komulativna porazdelitvena funkcija} $F_X: \mathbb{R} \to [0,1]$:
+$$
+F_X(x)=P(X \leq x)=P\left(X^{-1}((-\infty, x])\right)
+$$
+
+\begin{definicija}
+    \emph{Slučajni vektor} je taka preslikava $X=\left(X_1, \ldots, X_n\right): \Omega \to \mathbb{R}^n$ na verejetnostnem prostoru $(\Omega, \mathcal{F}, P)$, za katero so množice:
+    $$
+    \left\{X_1 \leq x_1, X_2 \leq x_2, \ldots, X_n \leq x_n\right\} :=\left\{\omega \in \Omega: X_1(\omega) \leq x_1, \ldots, X_n(\omega) \leq x_n\right\}
+    $$
+    v $\mathcal{F}$, se pravi dogodki za vse $n$-terice $x = \left(x_n, \ldots, x_n\right) \in \mathbb{R}^n$.
+\end{definicija}
+
+\n Oznaka: 
+$$
+\begin{aligned}
+    \left\{X_1 \leq x_1, X_2 \leq x_2, \ldots, X_n \leq x_n\right\} &\equiv\left\{\omega \in \Omega: X_1(\omega) \leq x_1, \ldots, X_n(\omega) \leq x_n\right\} \\
+    &\equiv \left\{X_1 \in\left(-\infty, x_1\right], \ldots, X_n \in\left(-\infty, x_n\right]\right\} \\ 
+    &\equiv\{X \in\left(-\infty, x_1\right] \times \ldots \times\left(-\infty, x_n\right]\} \\
+    &\equiv X^{-1}\left(\left(-\infty, x_n\right] \times \ldots \times\left(-\infty, x_n\right]\right)
+\end{aligned}
+$$
+
+\begin{definicija}
+    \emph{Komulativna porazdelitvena funkcija slučajnega vektorja} je funkcija $F_X: \mathbb{R}^n \to [0,1]$:
+    $$
+    F_X(x) \equiv F_{\left(X_1, \ldots, X_n\right)}\left(x_1, \ldots, x_n\right)=P\left(X_1 \leq x_1, \ldots, X_n \leq x_n\right)
+    $$
+\end{definicija}
+
+\n \textbf{Lastnosti komulativne porazdelitvene funkcije:}
+
+\begin{enumerate}
+    \item ~ \vspace{-27.5pt}
+    \begin{flalign*}
+        \lim _{x_1 \to-\infty} F_{X}\left(x_1, \ldots, x_n\right)&=\lim _{x_1 \to-\infty} P\left( \vphantom{\vec X}X \in\left(-\infty, x_1\right] \times \right. \underbrace{\cdots \times\left(-\infty, x_n\right]}_{K}\left. \vphantom{\vec X} \right) & \\
+        &=\lim _{n \to \infty} P\left(X \in(-\infty,-n] \times K\right) \tag{$\star$} & \\
+        &=P\left(\bigcap_{n=1}^{\infty}\{X \in(-\infty,-n] \times K\}\right) & \\
+        &=P\left(\vphantom{\bigcap_{n=1}^{\infty}} X \in \right. \underbrace{\bigcap_{n=1}^{\infty}(-\infty,-n] \times K}_{=\emptyset}\left. \vphantom{\bigcap_{n=1}^{\infty}} \right) & \\
+        &=0&
+    \end{flalign*}
+
+    Kjer smo v $(\star)$  vrstici uporabili zveznost $P$ oziroma:
+    $$
+    \lim_{n \to \infty} P\left(E_n\right) = P\left(\bigcup_{n=1}^{\infty} E_n\right) \quad \text{za} \quad E_1 \supseteq E_2 \supseteq E_3 \supseteq \cdots
+    $$
+    Ta limita velja, tudi če proti $\infty$ pošljemo poljuben $x_i$. Velja še: 
+    \begin{flalign*}
+        \lim _{\left(x_1, \ldots, x_n\right) \to(\infty, \ldots, \infty)} F_{X}\left(x_1, \ldots, x_n\right)&=\lim _{n \to \infty} P(X\in(-\infty, n] \times \cdots \times(-\infty, n]) & \\
+        &=P\left(\bigcup_{n=1}^{\infty} \{ X_1 \leq n, \ldots, X_n \leq n\} \right) & \\
+        &=P\left( X \in \mathbb{R}^n \right) & \\
+        &=P(\Omega) & \\
+        &=1 &
+    \end{flalign*}
+
+    \newpage
+
+    \item \emph{Monotnost:} če je $x_i \leq y_i$ za vse $i \in\{1, \ldots, n\}$, potem je: 
+    $$
+    F_{X}(x) \leq F_{X}(y)
+    $$
+    \begin{proof}
+        Sledi iz monotonosti verjetnostne preslikave.  
+    \end{proof}
+    \item \emph{Zveznost z desne:} 
+    $$
+    \lim _{y \downarrow x} F_{X}(y)=F_{X}(x)
+    $$
+    Tukaj $y \downarrow x$ interpretiramo kot $y_i \downarrow x_i$ za vse $i \in\{1, \ldots, n\}$.
+\end{enumerate}
+
+\n Lastnosti 1., 2. in 3. karakterizirajo družino (abstraktnih) komulativnih porazdelitvenih funkcij v primeru slučajne spremenljivke t.j. $n=1$. V večrazsežnem primeru to ne drži. Poglejmo si $n=2$. Za $a<b$ in $c<d$ izračunajmo:
+$$
+P((X, Y) \in (a, b] \times (c, d]) = F_{(X, Y)}(b, d) - F_{(X, Y)}(a, d) -F_{(X, Y)}(b, c) + F_{(X, Y)}(a, c)
+$$
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+
+        \definecolor{siva}{rgb}{0.8, 0.8, 0.8}
+
+        \begin{axis}[
+            axis lines = left,
+            domain=0:1,
+            samples=500,
+            height=5cm,
+            width=5cm,
+            xmin=0, xmax=1,
+            ymin=0, ymax=1,
+            xtick={0, 0.4, 0.9},
+            ytick={0.4, 0.8},
+            xticklabels={0, $\vphantom{b}a$, $b$},
+            yticklabels={$c$, $d$}
+        ]
+
+        \fill[siva] (0.4, 0.4) rectangle (0.9, 0.8);
+
+        \draw[dashed] (0.4, 0) -- (0.4, 0.8);
+        \draw[dashed] (0.9, 0) -- (0.9, 0.8);
+        \draw[dashed] (0, 0.4) -- (0.9, 0.4);
+        \draw[dashed] (0, 0.8) -- (0.9, 0.8);
+        \draw[->, line width=0.5pt] (0.9,0.8) -- (0.4,0.8);
+        \draw[->, line width=0.5pt] (0.9,0.8) -- (0.9,0.4);
+
+        \node at (0.89,0.9) {\scriptsize $(b, d)$};
+        \node at (0.39,0.9) {\scriptsize $(a, d)$};
+        \node at (0.89,0.3) {\scriptsize $(b, c)$};
+        \node at (0.39,0.3) {\scriptsize $(a, c)$};
+    
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{$P((X, Y) \in(a, b] \times(c, d])$}
+    \label{fig:1}
+\end{figure}
+
+\n Ker je to verjetnost mora veljati: 
+\begin{align}
+    F_{(X, Y)}(b, d) - F_{(X, Y)}(a, d) - F_{(X, Y)}(b, c) + F_{(X, Y)}(a, c) \geq 0 \tag{$4$} 
+\end{align}
+
+\begin{zgled}
+    $$
+    F(x, y)=
+    \begin{cases}
+        1 &; x \geq 1, y \geq 1 \\
+        \frac{2}{3} &; x \geq 1, y \in[0,1) \\
+        \frac{2}{3} &; x \in[0,1), y \geq 1 \\
+        0 &; \text {sicer}
+    \end{cases}
+    $$
+
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+    
+            \definecolor{siva1}{rgb}{0.8, 0.8, 0.8}
+            \definecolor{siva2}{rgb}{0.6, 0.6, 0.6}
+    
+            \begin{axis}[
+                axis lines = left,
+                domain=0:2,
+                samples=500,
+                height=6cm,
+                width=6cm,
+                xmin=0, xmax=1.2,
+                ymin=0, ymax=1.2,
+                xtick={0, 0.8},
+                ytick={0.8},
+                xticklabels={0, 1},
+                yticklabels={1}
+            ]
+    
+            \fill[siva1] (0, 0.8) rectangle (0.8, 1.15);
+            \fill[siva1] (0.8, 0.8) rectangle (1.15, 0);
+            \fill[siva2] (0.8, 0.8) rectangle (1.15, 1.15);
+    
+            \draw[dashed] (0.8, 0) -- (0.8, 1.15);
+            \draw[dashed] (0, 0.8) -- (1.15, 0.8);
+            \draw[->, line width=0.5pt] (0.95,0.95) -- (0.65,0.95);
+            \draw[->, line width=0.5pt] (0.95,0.95) -- (0.95,0.65);
+            \draw[dashed] (0.65, 0.65) -- (0.65, 0.95);
+            \draw[dashed] (0.65, 0.65) -- (0.95, 0.65);
+            
+            \node at (1,1) {\tiny $(b, d)$};
+            \node at (0.6,1) {\tiny $(a, d)$};
+            \node at (1,0.6) {\tiny $(b, c)$};
+            \node at (0.6,0.6) {\tiny $(a, c)$};
+            \node at (0.3,0.3) {$0$};
+            \node at (0.3,1) {$2/3$};
+            \node at (1,0.3) {$2/3$};
+            \node at (1.1,1.1) {$1$};
+        
+            \end{axis}
+        \end{tikzpicture}
+    
+        \caption[...]{Verjetnost $P((X, Y) \in (a, b] \times (c, d])$ za to k.p.f. \footnotemark}
+        \label{fig:2}
+    \end{figure}
+
+    \footnotetext{k.p.f. je okrajšava za kumulativno porazdelitveno funkcijo. To se v skripti pojavi še večkrat.}
+
+    \n Funkcija sicer zadošča lastnostim 1., 2. in 3., ampak za pravokotnik $(a, b] \times(c, d]$, kot na skici velja: 
+    $$
+    F(b, d)-F(a, d)-F(b, c)+F(a, c)=1-\frac{2}{3}-\frac{2}{3}+0<0
+    $$
+    Torej ne more biti komulativna porazdelitvena funkcija. 
+\end{zgled}
+
+\begin{izrek}
+    Če $F: \mathbb{R}^2 \rightarrow[0,1]$ zadošča lastnostim $1., 2., 3.$ in $4.$ $(\text{velja } F(b, d)-F(a, d)-F(b, c)+F(a, c) \geq 0$, za vse četverice $a<b$ in $c<d)$, potem je $F$ komulativna porazdelitvena funkcija nekega slučajnega vektorja $(X,Y): \Omega \to \mathbb{R}^2$. 
+\end{izrek}
+
+\n Očitna posplošitev velja tudi za $n \geq 3$. 
+
+\begin{trditev}
+    Če je $X=\left(X_1, \ldots, X_n\right)$ slučajni vektor, so vsi podvektorji tudi slučajni vektorji.
+\end{trditev}
+
+\begin{proof}
+    Na primer, za podvektor $\left(X_1, \ldots, X_{n-1}\right)$: 
+    \begin{align}
+        \left\{X_1 \leq x_1, \ldots, X_{n-1} \leq x_{n-1}\right\}=\bigcup_{k=1}^{\infty}\left\{X_1 \leq x_1, \ldots, X_{n-1} \leq x_{n-1}, X_n \leq k\right\} \tag{$\star$} 
+    \end{align}
+\end{proof}
+
+\n Posebej sledi, da so komponente slučajnih vektorjev, funkcije $X_1, X_2, \ldots, X_n$, slučajne spremenljivke. Iz $(\star)$ je očitno tudi, da komulativne porazdelitvene funkcije podvektorjev dobimo tako, da ustrezne kooridante pošljemo proti $\infty$:
+$$
+F_{\left(X_1, \ldots, X_{n-1}\right)}\left(x_1, \ldots, x_{n-1}\right)=\lim _{x_n \to \infty} F_{\left(X_1, \ldots, X_n\right)}\left(x_1, \ldots, x_n\right)
+$$
+Komulativne porazdelitvene funkcije $F_{X_i}$ imenujemo tudi \emph{robne} ali \emph{marginale} komulativne porazdelitvene funckije (glede na $F_{(X_1, \ldots, X_n)}$). 
+
+\begin{opomba}
+    Naj bo $X: \Omega \to \mathbb{R}$ s.s.\footnote[2]{s.s. je okrajšava za slučajno spremenljivko. To se v skripti pojavi še večkrat.} Potem so naslednje množice dogodki:
+    \begin{itemize}
+        \item ~ \vspace{-27pt}
+        \begin{flalign*}
+            \{X \in(a, b]\} &=\{X \in(-\infty, b]\} \setminus \{X \in(-\infty, a]\} & \\ 
+            &=\{X \in(-\infty, b]\} \cap\{X \in(-\infty, a]\}^c &
+        \end{flalign*}
+        \item $\{X \in(a, b)\}$, saj je to enako $\bigcup_{n=1}^{\infty}\left\{X \in\left(a, c_n\right]\right\}$ za $c_n \uparrow b$
+        \item $\{X \in[a, b]\}=\bigcap_{n=1}^{\infty}\left\{X \in\left(a-\frac{1}{n}, b+\frac{1}{n}\right)\right\}$
+        \item $\{X=x\} = \{X \in (x-1, x] \} \setminus \{ X \in (x-1, x)\}$
+    \end{itemize}
+    Zgornje lahko “kombiniramo” (števne unije, komplementi, preseki). Izkaže se, da obstajajo verjetnosti $P(X \in \mathcal{B})$, kjer je $\mathcal{B} \subseteq \mathbb{R}$ poljubna Borelova množica. 
+\end{opomba}
+
+\begin{opomba}
+    Pripomnimo, da podobno velja za slučajni vektor $X$. Množice: 
+    $$
+    \{X \in \mathcal{B}\}=X^{-1}(\mathcal{B}) \subseteq \Omega
+    $$
+    so dogodki za Borelove množice $\mathcal{B} \subseteq \mathbb{R}^n$
+\end{opomba}
+
+\begin{zgled}[Borelove množice]
+    ~
+
+    \begin{enumerate}
+        \item $\subseteq \mathbb{R}$
+        \begin{itemize}
+            \item $(a, b), (-\infty, b), \ldots$ vsi intervali;
+            \item $\{x\}=(x-1,x]\setminus(x-1,x)$ singeltoni;
+            \item Števne unije Borelovih množic;
+            \item Števni preseki Borelovih množic;
+            \item Komplementi Borelovih množic.
+        \end{itemize}
+        \item $\subseteq \mathbb{R}^2$
+        \begin{itemize}
+            \item Krogle;
+            \item Pravokotniki;
+            \item Enoelementne množice;
+            \item Unije, preseki, komplemeti kot v $\mathbb{R}$;
+            \item Če je $G: \mathbb{R}^2 \rightarrow \mathbb{R}^2$ zvezno parcialno odvedljiva bijekcija, je $G(\mathcal{B})$ Borelova za vsako Borelovo množico $\mathcal{B}$.
+        \end{itemize}
+    \end{enumerate}
+\end{zgled}
+
+\section{Zvezni slučajni vektorji}
+
+\begin{definicija}
+    Slučajni vektor $X: \Omega \to \mathbb{R}^n$ ima zvezno gostoto, če obstaja taka “zvezna” funkcija $f_{X}: \mathbb{R}^n \rightarrow[0, \infty)$, da zanjo velja: 
+    $$
+    P(X \in \mathcal{B})=\int_{\mathcal{B}} f_{X}\left(x_1, \ldots, x_n\right) \, d x_1 \cdots d x_n = \int_{\mathcal{B}}f_X(x) \, dx
+    $$
+    za vsako Borelovo množico $\mathcal{B} \subseteq \mathbb{R}^n$.
+\end{definicija}
+
+\n Mislimo si, da gre za posplošeni Reimannov integral. Zvezna funkcija $f_X: \mathbb{R}^n \to [0,\infty)$  je taka, pri kateri je množica točk nezveznosti zanemarljiva za $n$-terni integral. Če ima slučajni vektor $X$ “zvezno” gostoto, pravimo, da je zvezen. V tem primeru je $F_X: \mathbb{R}^n \to [0,1]$ \emph{zvezna} funkcija.
+
+\begin{zgled}
+    $X \sim \operatorname{U}(a, b)$ (enakomerna zvezna porazdelitev na $(a,b)$). Vse točke so “enako verjetne”. Natančneje za $a \leq c<d \leq b$: 
+    $$
+    \begin{aligned}
+        P\left(X \in(c, d) \right)=\int_c^d f_{\operatorname{U}(a, b)}(x) \, d x, \quad \text{kjer je} \quad f_{\operatorname{U}(a, b)}(x)&=\frac{1}{b-a} \cdot \mathbbm{1}_{(a, b)}(x) \\
+        &= \begin{cases}\frac{1}{b-a} &; x \in (a,b) \\ 0 &; x \notin (a,b)\end{cases}
+    \end{aligned}
+    $$
+
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            \begin{axis}[
+                axis lines = left,
+                domain=-3:3,
+                samples=500,
+                height=4cm,
+                width=10cm,
+                xmin=-3, xmax=3,
+                ymin=0, ymax=0.5,
+                ytick={0.3},
+                xtick={-2, 2},
+                yticklabels={$\frac{1}{b-a}$},
+                xticklabels={$a$, $b$},
+                yticklabel style={xshift=0cm}
+            ]
+            
+            \draw[line width=1pt] (-3, 0) -- (-2, 0);
+            \draw[->, line width=1pt] (-2, 0.3) -- (2, 0.3);
+            \draw[->, line width=1pt] (2, 0.3) -- (-2, 0.3);
+            \draw[line width=0.5pt] (-3, 0) -- (3, 0);
+            
+            \draw[dashed] (-2, 0) -- (-2, 0.3);
+            \draw[dashed] (2, 0) -- (2, 0.3);
+            \draw[dashed] (-3, 0.3) -- (2, 0.3);
+            
+            \end{axis}
+        \end{tikzpicture}
+
+        \caption{$f_X(x)$ za enakomerno porazdelitev}
+        \label{fig:3}
+    \end{figure}
+\end{zgled}
+
+\begin{definicija}
+    Za abstraktno množico $M$ in $A \subseteq M$ je $\mathbbm{1}_A: M \to \{ 0, 1\}$ \emph{indikator množice} $A$ funkcija: 
+    $$
+    \mathbbm{1}_A(m)= \begin{cases}1 &; m \in A \\ 0 &; m \notin A\end{cases}
+    $$
+\end{definicija}
+
+\begin{opomba}
+    Velja: $P(X \in A)=E\left(\mathbbm{1}_A(X)\right)$
+\end{opomba}
+
+\begin{zgled}
+    V primeru $X \sim \operatorname{U}(a,b)$ je gostota $X$ tudi: 
+    $$
+    f_X(x)=\begin{cases}
+        \frac{1}{b-a} &; x \in(a, b) \setminus\left\{\frac{a+b}{2}\right\} \\
+        \, 42 &; x=\frac{a+b}{2} \\
+        \, \, \, 0 &; x \notin(a, b)
+        \end{cases}
+    $$
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            \begin{axis}[
+                axis lines = left,
+                domain=-3:3,
+                samples=500,
+                height=4cm,
+                width=10cm,
+                xmin=-3, xmax=3,
+                ymin=0, ymax=0.55,
+                ytick={0.2, 0.5},
+                xtick={-2, 0, 2},
+                yticklabels={$\frac{1}{b-a}$, 42},
+                xticklabels={\vphantom{$\frac{a+b}{2}$}$a$, $\frac{a+b}{2}$, \vphantom{$\frac{a+b}{2}$}$b$},
+                yticklabel style={xshift=0cm}
+            ]
+            
+            \draw[line width=1pt] (-3, 0) -- (-2, 0);
+            \draw[->, line width=1pt] (-2, 0.2) -- (0, 0.2);
+            \draw[->, line width=1pt] (0, 0.2) -- (-2, 0.2);
+            \draw[->, line width=1pt] (0, 0.2) -- (2, 0.2);
+            \draw[->, line width=1pt] (2, 0.2) -- (0, 0.2);
+            \draw[line width=1pt] (2, 0) -- (3, 0);
+            \draw[line width=0.5pt] (-3, 0) -- (3, 0);
+            
+            \draw[dashed] (-2, 0) -- (-2, 0.2);
+            \draw[dashed] (2, 0) -- (2, 0.2);
+            \draw[dashed] (-3, 0.2) -- (2, 0.2);
+            \draw[dashed] (0, 0) -- (0, 0.47);
+            \draw[dashed] (-0.08 , 0.5) -- (-5, 0.5);
+
+            \addplot[mark=*, mark size=1pt] coordinates {(0,0.5)};
+            
+            \end{axis}
+        \end{tikzpicture}
+
+        \caption{$f_X(x)$ za enakomerno porazdelitev}
+        \label{fig:4}
+    \end{figure}
+\end{zgled}
+
+\begin{zgled}
+    $D = \left\{(x, y) \in \mathbb{R}^2 \mid x^2+y^2<1\right\}$ odprt enotski krog. Pravimo, da $(X, Y) \sim \operatorname{U}(D)$, če ima gostoto: 
+    $$
+    f_{(X, Y)}(x, y)=\frac{1}{\pi} \cdot \mathbbm{1}_D(x, y)
+    $$
+    Množica točk nezveznosti zgornje gostote je enotska krožnica. To je zanemarljiva množica za $\int_{\mathbb{R}^2}$.
+\end{zgled}
+
+\n \textbf{Oglejmo si dvorazsežen primer ($n=2$):}
+
+\n Za $(X, Y): \Omega \to \mathbb{R}^2$ z gostoto $f_{(X, Y)}: \mathbb{R}^2 \to [0, \infty)$ velja: 
+\begin{align*}
+    F_{(X, Y)}(x, y)&=P((X, Y) \in(-\infty, x] \times(-\infty, y]) \\
+    &=\int_{(-\infty, x] \times(-\infty, y]} f_{(X, Y)}(u, v) \, d u d v \\
+    &=\int_{-\infty}^x \int_{-\infty}^y f_{(X, Y)}(u, v) \, d v d u \tag{$\star$} \\
+    &=\int_{-\infty}^y \int_{-\infty}^x f_{(X, Y)}(u, v) \, d u d v
+\end{align*}
+Kjer smo v $(\star)$ vrstici uporabili Fubinijev izrek (integral mora biti absolutno konvergenten).
+
+\n Robni komulativni porazdelitveni funkciji se glasita: 
+$$
+\begin{aligned}
+    F_X(x)&=\lim _{y \rightarrow \infty} F_{(X, Y)}(x, y) \\
+    &=\lim _{y \rightarrow \infty} \int_{-\infty}^y \int_{-\infty}^x f_{(X, Y)}(u, v) \, d u d v \\
+    &=\int_{-\infty}^{\infty} \int_{-\infty}^x f_{(X, Y)}(u, v) \,d u d v \\
+    &=\int_{-\infty}^x \int_{-\infty}^{\infty} f_{(X, Y)}(u, v) \, d v d u
+\end{aligned}
+$$
+$$
+\begin{aligned}
+    F_Y(y)&=\lim _{x \rightarrow \infty} F_{(X, Y)}(x, y) \\
+    &=\lim _{x \rightarrow \infty} \int_{-\infty}^x \int_{-\infty}^y f_{(X, Y)}(u, v) \, d u d v \\
+    &=\int_{-\infty}^{\infty} \int_{-\infty}^y f_{(X, Y)}(u, v) \,d u d v \\
+    &=\int_{-\infty}^y \int_{-\infty}^{\infty} f_{(X, Y)}(u, v) \, d v d u
+\end{aligned}
+$$
+Od tod sledita robni gostoti: 
+$$
+f_X(x)=F_X^{\prime}(x)=\int_{-\infty}^{\infty} f_{(X, Y)}(x, v) \, d v
+$$
+$$
+f_Y(y)=F_Y^{\prime}(y)=\int_{-\infty}^{\infty} f_{(X, Y)}(u, y) \, d u
+$$
+V točkah odevljivosti k.p.f. $F$, oz. za skoraj vse $x$ oz. $y$. 
+
+\section{Dvofazna normalna porazdelitev}
+
+Naj bo $\mu=\begin{bmatrix}\mu_1 \\ \mu_2 \end{bmatrix} \in \mathbb{R}^2$ in naj bo $\Sigma=\begin{bmatrix} \sigma_1^2 & \sigma_{12} \\ \sigma_{12} & \sigma_2^2\end{bmatrix}$, kjer je $\sigma_1, \sigma_2 \in(0, \infty)$ in $\sigma_{12} \in \mathbb{R}$, simetična pozitivno definitna $2 \times 2$ matirka ($\iff \det (\Sigma) > 0$). Tedaj ima slučajni vektor $(X,Y)$ dvorazsežno normalno porazdelitev s parametroma $\mu$ in $\Sigma$, če ima gostoto: 
+$$
+f_{(X,Y)}(x, y)=\frac{1}{2 \pi} \frac{1}{\sqrt{\operatorname{det} \Sigma}} \cdot \exp \left(-\frac{1}{2}\left\langle\Sigma^{-1}\left(\begin{bmatrix} x \\ y \end{bmatrix}-\begin{bmatrix} \mu_1 \\ \mu_2 \end{bmatrix}\right),\begin{bmatrix} x \\ y \end{bmatrix}-\begin{bmatrix} \mu_1 \\ \mu_2 \end{bmatrix} \right\rangle \right)
+$$
+Gostota $f_{X,Y}$ je zvezna povsod na $\mathbb{R}^2$. 
+
+\begin{opomba}
+    Pišemo $(X, Y) \sim \operatorname{N}(\mu, \Sigma)=N\left(\begin{bmatrix} \mu_1 \\ \mu_2 \end{bmatrix},\begin{bmatrix} \sigma_1^2 & \sigma_{12} \\ \sigma_{12} & \sigma_2^2 \end{bmatrix}\right)$.
+\end{opomba}
+
+\n Seveda je: 
+$$
+\Sigma^{-1}=\frac{1}{\sigma_1{ }^2 \sigma_2{ }^2-\sigma_{12}^2}\begin{bmatrix} \sigma_2^2 & -\sigma_{12} \\ -\sigma_{1 2} & \sigma_1^2 \end{bmatrix}
+$$
+Tako dobimo:  $\left\langle\Sigma^{-1}\left(\begin{bmatrix} x \\ y \end{bmatrix}-\begin{bmatrix} \mu_1 \\ \mu_2 \end{bmatrix}\right),\begin{bmatrix} x \\ y \end{bmatrix}-\begin{bmatrix} \mu_1 \\ \mu_2 \end{bmatrix}\right\rangle = (\star)$ prepišemo v: 
+
+\begin{align*}
+    \left\langle\Sigma^{-1}\begin{bmatrix} x - \mu_1 \\ y - \mu_2 \end{bmatrix},\begin{bmatrix} x - \mu_1 \\ y - \mu_2 \end{bmatrix}\right\rangle &= \frac{1}{\sigma_1^2 \sigma_2^2-\sigma_{12}^2} \left\langle \begin{bmatrix}\sigma_2^2 & -\sigma_{12} \\ -\sigma_{12} & \sigma_1^2 \end{bmatrix}\begin{bmatrix} x-\mu_1 \\ y-\mu_2 \end{bmatrix}, \begin{bmatrix} x-\mu_1 \\ y-\mu_2 \end{bmatrix}\right\rangle \\
+    &= \frac{1}{\sigma_1^2 \sigma_2^2-\sigma_{12}^2} \left\langle \begin{bmatrix} \sigma_2^2\left(x-\mu_1\right)-\sigma_{12}\left(y-\mu_2\right) \\ \sigma_1^2\left(y-\mu_2\right)-\sigma_{12}\left(x \mu_1\right) \end{bmatrix}, \begin{bmatrix} x-\mu_1 \\ y-\mu_2 \end{bmatrix} \right\rangle \\
+    &= \frac{\sigma_2^2\left(x-\mu_1\right)^2-2 \sigma_{12}\left(x-\mu_1\right)\left(y-\mu_2\right)+\sigma_1^2\left(y-\mu_2\right)^2}{\sigma_1^2 \sigma_2^2-\sigma_{12}^2}
+\end{align*}
+
+\n Vpeljemo $\rho=\frac{\sigma_{12}}{\sigma_1 \sigma_2}$. Ker je $\det \Sigma=\sigma_1{ }^2 \sigma_2{ }^2\left(1-\rho^2\right)$ je $\det \Sigma >0 \iff \rho^2<1$, oz. $\rho \in(-1,1)$. S parametrom $\rho$ lahko nadomestimo $\sigma_{12}$. Dobimo: 
+$$
+\scalebox{1}{$\left\langle\Sigma^{-1}\begin{bmatrix} x - \mu_1 \\ y - \mu_2 \end{bmatrix},\begin{bmatrix} x - \mu_1 \\ y - \mu_2 \end{bmatrix}\right\rangle = \frac{1}{1-\rho^2}\left(\left(\frac{x-\mu_1}{\sigma_1}\right)^2-2 \rho\left(\frac{x-\mu_1}{\sigma_1}\right)\left(\frac{y-\mu_2}{\sigma_2}\right)+\left(\frac{y-\mu_2}{\sigma_2}\right)^2\right)$}
+$$
+Ekvivalentno lahko torej normalno porazdelitev parametriziramo s parametri:
+$$
+\mu_1 \in \mathbb{R}, \mu_2 \in \mathbb{R}, \sigma_1 \in(0, \infty), \sigma_2 \in(0, \infty), \rho \in(-1,1)
+$$
+Dobimo: 
+$$
+\scalebox{1}{$f_{(X, Y)}(x, y)=\frac{1}{2 \pi \sigma_1 \sigma_2 \sqrt{1-\rho^2}} \exp\left(-\frac{1}{2\left(1-\rho^2\right)}\left(\left(\frac{x-\mu_1}{\sigma_1}\right)^2-2 \rho\left(\frac{x-\mu_1}{\sigma_1}\right)\left(\frac{y-\mu_2}{\sigma_2}\right)+\left(\frac{y-\mu_2}{\sigma_2}\right)^2\right)\right)$}
+$$
+
+\n Vidimo, da so nivojnice funkcije $f_{(X,Y)}$ krivulje, ki so elipse s središčem v $(\mu_1, \mu_2)$.
+
+\n Oglejmo si poseben primer $\mu_1=\mu_2=0, \sigma_1=\sigma_2=1$ (ekvivalentno, obravnavamo gostoto transformacije $U=\frac{X-\mu_1}{\sigma_1}, V=\frac{Y-\mu_2}{\sigma_2}$). Nivojnice se krivulje: 
+$$
+\begin{aligned}
+    u^2-2 \rho u v+v^2&=C\left(1-\rho^2\right) \\ 
+    \left\langle\begin{bmatrix} 1 & -\rho \\ -\rho & 1 \end{bmatrix} \begin{bmatrix} u \\ v \end{bmatrix},\begin{bmatrix} u \\ v \end{bmatrix}\right\rangle&=C\left(1-\rho^2\right)
+\end{aligned}
+$$
+
+\newpage
+
+\n To je kvadratna forma oblike $q_A(x) = \langle Ax, x \rangle$. Izračunajmo lastni vrednosti matrike $A=\begin{bmatrix} 1 & -\rho \\ -\rho & 1 \end{bmatrix}$: 
+$$
+\begin{aligned}
+    \det (A -\lambda I) &= \begin{vmatrix} 1 -\lambda & -\rho \\ -\rho & 1 -\lambda \end{vmatrix} \\
+    &= (1 -\lambda)^2 - \rho^2 \\
+    &=(1-\lambda - \rho)(1-\lambda + \rho)
+\end{aligned}
+$$
+Lastni vrednosti sta $1 \pm \rho$.
+
+\begin{flalign*}
+    & \lambda_1=1-\rho:\begin{bmatrix} \rho & -\rho \\ -\rho & \rho \end{bmatrix}\begin{bmatrix} 1 \\ 1 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \quad \implies \text{lastni vektor je} \quad \begin{bmatrix} 1 \\ 1 \end{bmatrix} \\ 
+    &\lambda_1=1+\rho:\begin{bmatrix} -\rho & -\rho \\ -\rho & -\rho \end{bmatrix}\begin{bmatrix} -1 \\ 1 \end{bmatrix} = \begin{bmatrix} 0 \\ 0\end{bmatrix} \quad \implies \text{lastni vektor je} \quad \begin{bmatrix} -1 \\ 1 \end{bmatrix} 
+\end{flalign*}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            axis lines = middle,
+            domain=-3:3,
+            samples=500,
+            height=8cm,
+            width=10cm,
+            xmin=-3.75, xmax=3.75,
+            ymin=-3, ymax=3,
+            xtick={},
+            ytick={},
+            xticklabels={},
+            yticklabels={}
+        ]
+        
+        \def\C{4} 
+        \def\angle{45}
+        \def\lambdamajor{sqrt(\C*(1+0.6))}
+        \def\lambdaminor{sqrt(\C*(1-0.6))}
+
+        \draw[thick] (0,0) ellipse [x radius=\lambdamajor, y radius=\lambdaminor, rotate=\angle];
+
+        \draw[->] (-5,-5) -- (5,5) node[right] {$u'$};
+        \draw[->] (5,-5) -- (-5,5) node[left] {$v'$};
+
+        \node at (-2,0.8) {\scriptsize $\sqrt{C(1-\rho)}$};
+        \node at (1.5,2.5) {\scriptsize $\sqrt{C(1+\rho)}$};
+
+        \node at (3.25, -0.2) {$u$};
+        \node at (0.2, 2.75) {$v$};
+        \node at (3.25, 2.75) {$u^{\prime}$};
+        \node at (-2.25, 2.75) {$v^{\prime}$};
+
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Nivojnica $\operatorname{N}\left(\begin{bmatrix} 0 \\ 0 \end{bmatrix}, \begin{bmatrix} 1 & \rho \\ \rho & 1 \end{bmatrix}\right)$}
+    \label{fig:5}
+\end{figure}
+
+\n V koordinatah $\begin{bmatrix}
+    u^{\prime} \\
+    v^{\prime}
+    \end{bmatrix}=\begin{bmatrix}
+    \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\
+    -\frac{1}{2} & \frac{1}{\sqrt{2}}
+    \end{bmatrix}\begin{bmatrix}
+    u \\
+    v
+    \end{bmatrix}$ dobimo enačbo:
+$$
+(1-\rho) u^{\prime 2}+(1+\rho) v^{\prime 2}=C\left(1-\rho^2\right) \iff \frac{u^{\prime 2}}{C(1+\rho)}+\frac{v^{\prime 2}}{C(1-\rho)}=1
+$$
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            view={40}{40},
+            grid=major,
+            domain=-3:3, 
+            y domain=-3:3,
+            zmax=0.23,
+            samples=50,
+            height=10cm,
+            width=10cm,
+            colormap/cool,
+            xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+            xtick=\empty, ytick=\empty, ztick=\empty,
+            axis lines=center
+        ]
+        
+        \pgfmathsetmacro\rho{0.6}  
+        \pgfmathsetmacro\a{sqrt(1-\rho^2)}  
+        
+        \addplot3[
+            surf,
+            opacity=0.7,
+        ]
+        {exp(-0.5*(x^2 + y^2 - 2*\rho*x*y) / \a^2) / (2*pi*\a)};
+
+        \addplot3 [
+            thick, orange, dashed,
+            samples=50,
+            samples y=0,
+            domain=0:2*pi,
+        ]
+        ({sqrt((-2 * (\a)^2 * ln(0.1 * pi * \a)) / (1 - \rho * sin(2 * deg(x)))) * cos(deg(x))},
+        {sqrt((-2 * (\a)^2 * ln(0.1 * pi * \a)) / (1 - \rho * sin(2 * deg(x)))) * sin(deg(x))}, 
+        {0.05}); 
+
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Gostota $\operatorname{N}\left(\begin{bmatrix} 0 \\ 0 \end{bmatrix}, \begin{bmatrix} 1 & \rho \\ \rho & 1 \end{bmatrix}\right)$ z nivojnico}
+    \label{fig:6}
+\end{figure}
+
+\n Naj bo $(X,Y) \sim N\left(\begin{bmatrix} \mu_1 \\ \mu_2 \end{bmatrix},\begin{bmatrix} \sigma_1^2 & \sigma_{12} \\ \sigma_{12} & \sigma_2^2 \end{bmatrix}\right)$. Izkaže se, da za robni porazdelitvi velja: 
+$$
+X \sim N\left(\mu_1, \sigma_1{ }^2\right) \quad \text {in} \quad Y \sim N\left(\mu_2, \sigma_2^2\right)
+$$
+Nadalje se izkaže, da je $\sigma_{1 2}=K(X, Y)$. Posledično je $\rho$ t.i. Pearsonov korelacijski koeficient. 
+
+\begin{opomba}
+    Pripomnimo, da sledi, da porazdelitev vektorja $(X,Y)$ ni določena z robnima porazdelitvama. 
+\end{opomba}
+
+\begin{zgled}
+    Oglejmo si primer $(X,Y) \sim N\left(\begin{bmatrix} 0 \\ 0 \end{bmatrix},\begin{bmatrix} 1 & \rho \\ \rho & 1 \end{bmatrix}\right)$. Tedaj se gostota $(X, Y)$ glasi:
+    $$
+    f_{(X, Y)}(x, y)=\frac{1}{2 \pi} \cdot e^{-\frac{1}{2\left(1-\rho^2\right)}\left(x^2-2 \rho x y+y^2\right)}
+    $$
+    $\rho = 0 \implies$ standardna dvorazsežna normalna porazdelitev.
+\end{zgled}
+
+\n \textbf{Posplošitev:}
+
+\n Pravimo, da ima vektor $X=\left(X_1, \ldots, X_n\right)$ $n$-razsežno normalno porazdelitev s parametroma $\mu \in \mathbb{R}^n$ in $\Sigma \in \mathbb{R}^{n \times n}$ (simetrična in poz. definitna), če ima gostoto: 
+$$
+f_{X}(x)=(2 \pi)^{-\frac{n}{2}}(\det \Sigma)^{-\frac{1}{2}} \exp\left(-\frac{1}{2}\left\langle\Sigma^{-1}(x-\mu), x-\mu\right\rangle\right)
+$$
 
 \end{document}

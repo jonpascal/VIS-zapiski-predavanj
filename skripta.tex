@@ -690,49 +690,49 @@ $$
 (1-\rho) u^{\prime 2}+(1+\rho) v^{\prime 2}=C\left(1-\rho^2\right) \iff \frac{u^{\prime 2}}{C(1+\rho)}+\frac{v^{\prime 2}}{C(1-\rho)}=1
 $$
 
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-        \begin{axis}[
-            view={40}{40},
-            grid=major,
-            domain=-3:3, 
-            y domain=-3:3,
-            zmax=0.23,
-            samples=50,
-            height=10cm,
-            width=10cm,
-            colormap/cool,
-            xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
-            xtick=\empty, ytick=\empty, ztick=\empty,
-            axis lines=center
-        ]
-        
-        \pgfmathsetmacro\rho{0.6}  
-        \pgfmathsetmacro\a{sqrt(1-\rho^2)}  
-        
-        \addplot3[
-            surf,
-            opacity=0.7,
-        ]
-        {exp(-0.5*(x^2 + y^2 - 2*\rho*x*y) / \a^2) / (2*pi*\a)};
-
-        \addplot3 [
-            thick, orange, dashed,
-            samples=50,
-            samples y=0,
-            domain=0:2*pi,
-        ]
-        ({sqrt((-2 * (\a)^2 * ln(0.1 * pi * \a)) / (1 - \rho * sin(2 * deg(x)))) * cos(deg(x))},
-        {sqrt((-2 * (\a)^2 * ln(0.1 * pi * \a)) / (1 - \rho * sin(2 * deg(x)))) * sin(deg(x))}, 
-        {0.05}); 
-
-        \end{axis}
-    \end{tikzpicture}
-
-    \caption{Gostota $\operatorname{N}\left(\begin{bmatrix} 0 \\ 0 \end{bmatrix}, \begin{bmatrix} 1 & \rho \\ \rho & 1 \end{bmatrix}\right)$ z nivojnico}
-    \label{fig:6}
-\end{figure}
+%\begin{figure}[H]
+%    \centering
+%    \begin{tikzpicture}
+%        \begin{axis}[
+%            view={40}{40},
+%            grid=major,
+%            domain=-3:3, 
+%            y domain=-3:3,
+%            zmax=0.23,
+%            samples=50,
+%            height=10cm,
+%            width=10cm,
+%            colormap/cool,
+%            xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+%            xtick=\empty, ytick=\empty, ztick=\empty,
+%            axis lines=center
+%        ]
+%        
+%        \pgfmathsetmacro\rho{0.6}  
+%        \pgfmathsetmacro\a{sqrt(1-\rho^2)}  
+%        
+%        \addplot3[
+%            surf,
+%            opacity=0.7,
+%        ]
+%        {exp(-0.5*(x^2 + y^2 - 2*\rho*x*y) / \a^2) / (2*pi*\a)};
+%
+%        \addplot3 [
+%            thick, orange, dashed,
+%            samples=50,
+%            samples y=0,
+%            domain=0:2*pi,
+%        ]
+%        ({sqrt((-2 * (\a)^2 * ln(0.1 * pi * \a)) / (1 - \rho * sin(2 * deg(x)))) * cos(deg(x))},
+%        {sqrt((-2 * (\a)^2 * ln(0.1 * pi * \a)) / (1 - \rho * sin(2 * deg(x)))) * sin(deg(x))}, 
+%        {0.05}); 
+%
+%        \end{axis}
+%    \end{tikzpicture}
+%
+%    \caption{Gostota $\operatorname{N}\left(\begin{bmatrix} 0 \\ 0 \end{bmatrix}, \begin{bmatrix} 1 & \rho \\ \rho & 1 \end{bmatrix}\right)$ z nivojnico}
+%    \label{fig:6}
+%\end{figure}
 
 \n Naj bo $(X,Y) \sim N\left(\begin{bmatrix} \mu_1 \\ \mu_2 \end{bmatrix},\begin{bmatrix} \sigma_1^2 & \sigma_{12} \\ \sigma_{12} & \sigma_2^2 \end{bmatrix}\right)$. Izkaže se, da za robni porazdelitvi velja: 
 $$
@@ -758,5 +758,166 @@ Nadalje se izkaže, da je $\sigma_{1 2}=K(X, Y)$. Posledično je $\rho$ t.i. Pea
 $$
 f_{X}(x)=(2 \pi)^{-\frac{n}{2}}(\det \Sigma)^{-\frac{1}{2}} \exp\left(-\frac{1}{2}\left\langle\Sigma^{-1}(x-\mu), x-\mu\right\rangle\right)
 $$
+
+\chapter{Neodvisnost}
+
+\begin{definicija}
+    Slučajne spremenljivke $X_1, \ldots, X_n$, so neodvisne, če velja: 
+    \begin{align*}
+        F_{X}\left(x_1, \ldots, x_n\right)=F_{X_1}\left(x_1\right) \cdot F_{X_2}\left(x_2\right) \cdots F_{X_n}\left(x_n\right) \tag{$\star$} 
+    \end{align*}
+    za vse realne $n$-terice $\left(x_1, \ldots, x_n\right) \in \mathbb{R}^n$.
+\end{definicija}
+
+\n Enakost $(\star)$ lahko prepišemo v: 
+$$
+P\left(X \in\left(-\infty, x_1\right] \times \ldots \times\left(-\infty, x_n\right]\right)=P\left(X_1 \in\left(-\infty, x_1\right]\right) \cdots  P\left(X_n \in\left(-\infty, x_n\right]\right)
+$$
+
+\n Izkaže se, da so komponente vektorja $X$ neodvisne natanko tedaj, ko velja:
+$$
+P\left(X_1 \in B_1, X_2 \in B_2, \ldots, X_n \in B_n\right)=P\left(X_1 \in B_1\right) \cdot P\left(X_2 \in B_2\right) \cdots P\left(X_n \in B_n\right)
+$$
+za vse $n$-terice Borelovih množic $B_i \subseteq \mathbb{R}$.
+
+\n Torej za slučajni spremenljivki $X, Y$ velja, da sta neodvisni natanko tedaj, ko: 
+$$
+P(X \in A, Y \in B)=P(X \in A) \cdot P(Y \in B)
+$$
+za vse intervale $A,B \subseteq \mathbb{R}$
+
+\n Spomnimo se, da so dogodki $E_1, E_2, \ldots , E_n$ neodvisni:
+$$
+P\left(E_{i_1} \cap \cdots \cap E_{i_k}\right)=P\left(E_{i_1}\right) \cdots P\left(E_{i_k}\right)
+$$
+za $\forall k \in \{2, 3, \ldots, n\}$ in vsako $k$-terico $i_1<i_2<\ldots<i_k$.
+
+\begin{opomba}
+    Če so $X_1, \ldots, X_n$ neodvisne, so tudi paroma neodvisne, t.j. neodvisni sta $X_i$ in $X_j$ za vsak par $i \neq j$. Obratno ne velja v splošnem. 
+\end{opomba}
+
+\begin{trditev}
+    Naj ima slučajni vektor $(X,Y)$ “zvezno” gostoto $f_{(X,Y)}:\mathbb{R}^2 \to [0, \infty)$. $X$ in $Y$ sta neodvisni $\iff$
+    $$
+    f_{(X, Y)}(x, y)=f_X(x) \cdot f_Y(y)
+    $$
+    za skoraj vse realne pare $(x,y) \in \mathbb{R}^2$.
+\end{trditev}
+
+\begin{proof}
+    Definicija neodvisnosti pravi: 
+    $$
+    P((X, Y) \in(-\infty, x] \times(-\infty, y])=P(X \in(-\infty, x]) P(Y \in(-\infty, y])
+    $$
+    Oziroma: 
+    $$
+    \begin{aligned}
+      \int_{(-\infty, x] \times(-\infty, y]} f_{(X, Y)}(u, v) \, d u d v&=\int_{(-\infty, x]} f_X(u) \, d u \int_{(-\infty, y]} f_Y(v) \, d v  \\
+      \int_{-\infty}^x \int_{-\infty}^y f_{(X, Y)}(u, v) \, d v d u&=\int_{-\infty}^x f_X(u) \, d u \int_{-\infty}^y f_Y(v) \, d v
+    \end{aligned}
+    $$
+    $(\implies)$ Uporabimo osnovni izrek analize in odvajamo najprej po $x$:
+    $$
+    \int_{-\infty}^y f_{(X, Y)}(x, y) \, d v=f_X(x) \int_{-\infty}^y f_Y(v) \, d v
+    $$
+    Odvajati smemo skoraj v vseh točka $x \in \mathbb{R}$, saj gostote niso vedno povsod zvezne. Odvjamo še po $y$: 
+    $$
+    f_{(X, Y)}(x, y)=f_X(x) f_Y(y)
+    $$
+    Velja za skoraj vse $x$ in $y$.\footnote[3]{Enakost za skoraj vse $x$ in $y$ pomeni enakost za vse integrale po Borelovih množicah.}
+
+    \n $(\impliedby)$ Če veja $f_{(X, Y)}(u, v)=f_X(u) f_Y(v)$ za skoraj vse $u,v$ veja tudi: 
+    $$
+    \int_{(-\infty, x] \times(-\infty, y]} f_{(X, Y)}(u, v) \, d u d v=\int_{(-\infty, x] \times(-\infty, y]} f_X(u) \cdot f_Y(v) \, d u d v
+    $$
+    za vse\footnote[4]{Če sta funkciji skoraj povsod enaki je integral funkcij enak povsod.} $x$ in $y$. Leva starn je $F_{(X,Y)}(x,y)$, na desni strani pa dvojni integral spremeninmo v dvakratnega: 
+    $$
+    \begin{aligned}
+        \int_{(-\infty, x] \times(-\infty, y]} f_X(u) \cdot f_Y(v) \, d u d v &= \int_{(-\infty, x]} f_X(u) \int_{(-\infty, y]} f_Y(v) \, d v d u\\
+        &=\int_{(-\infty, x]} f_X(u) \, d u \int_{(-\infty, y]} f_Y(v) \, d v \\
+        &= F_X(x) \cdot F_Y(y)
+    \end{aligned}
+    $$
+\end{proof}
+
+\begin{posledica}
+    Če je $(X,Y) \sim N\left(\begin{bmatrix}\mu_1 \\ \mu_2 \end{bmatrix}, \begin{bmatrix} \sigma_1^2 & \sigma_{12} \\ \sigma_{12} & \sigma_2^2 \end{bmatrix}\right)$ potem sta $X$ in $Y$ neodvisni $\iff$ $\sigma_{12} \iff \rho = 0$.
+\end{posledica}
+
+\begin{proof}
+    $(\implies)$ Spomnimo se, da ima $(X,Y)$ gostoto:
+    $$
+    f_{(X,Y)}(x,y) = \frac{1}{2 \pi} \cdot \frac{1}{\sqrt{\det \Sigma}} \cdot e^{-\frac{1}{2}\left\langle\Sigma^{-1}\left(\vec{x} - \vec{\mu}\right), \vec{x} - \vec{\mu}\right\rangle}
+    $$
+    Če za $f_X$ $f_Y$ izberemo “standardne” funkcije zaradi njihove zveznosti, dobimo neodvisnost natanko tedaj, ko velja:
+    $$
+    f_{(X, Y)}(x, y)=f_X(x) \cdot f_Y(y)
+    $$
+    za vse pare $x, y$, kjer sta: 
+    $$
+    f_X(x)= \frac{1}{\sqrt{2 \pi} \sigma_1} e^{-\frac{1}{2}\left(\frac{x-\mu_1}{\sigma_1}\right)^2} \qquad \text{in} \qquad f_Y(y)=\frac{1}{\sqrt{2 \pi} \sigma_2} e^{-\frac{1}{2}\left(\frac{y-\mu_2}{\sigma_2}\right)^2}
+    $$
+    To pomeni: 
+    $$
+    \frac{1}{2 \pi} \cdot \frac{1}{\sqrt{\det \Sigma}} \cdot e^{-\frac{1}{2}\left\langle\Sigma^{-1}\left(\vec{x} - \vec{\mu}\right), \vec{x} - \vec{\mu}\right\rangle} = \frac{1}{\sqrt{2 \pi} \sigma_1} e^{-\frac{1}{2}\left(\frac{x-\mu_1}{\sigma_1}\right)^2} \frac{1}{\sqrt{2 \pi} \sigma_2} e^{-\frac{1}{2}\left(\frac{y-\mu_2}{\sigma_2}\right)^2}
+    $$
+    Če privzamemo veljavnost zgornjega razcepa in vstavimo $(x, y)=\left(\mu_1, \mu_2\right)$ dobimo:
+    $$
+    \frac{1}{2 \pi} \frac{1}{\sigma_1 \sigma_2 \sqrt{1 - \rho^2}}= \frac{1}{\sqrt{2 \pi} \sigma_1} \frac{1}{\sqrt{2 \pi} \sigma_2} \implies 1-\rho^2=1 \implies \rho=0
+    $$
+    $(\impliedby)$ Očitno. Vstavimo $\rho =0$.
+\end{proof}
+
+\begin{opomba}
+    Za $\mu \in \mathbb{R}^n$ in simetrično pozitivno definitno matriko $\Sigma \in \mathbb{R}^{n \times n}$ je slučajni vektor $X: \Omega \rightarrow \mathbb{R}^n$ porazdeljen normalno s parametroma $\mu$ in $\Sigma$ ($X \sim N(\mu, \Sigma)$), če ima gostoto: 
+    $$
+    f_X(x)=(2 \pi)^{-\frac{n}{2}}(\det \Sigma)^{-\frac{1}{2}} e^{-\frac{1}{2}\left\langle\Sigma^{-1}(x-\mu), x-\mu\right\rangle}
+    $$
+    Izkaže se, da sledi:
+    $$
+    X_i \sim N\left(\mu_i, \Sigma_{i i}\right) \quad \text{in da je} \quad \Sigma_{i j}=K\left(X_i, X_j\right) \quad \text{za} \quad i \neq j.
+    $$
+    Dalje sledi, da so $X_1, \ldots, X_n$ neodvisne $\iff \Sigma$ diagonalna. Posledično so komponente večrazsežno normalno porazdeljenega slučajnega vektorja neodvisne natanko tedaj, ko so paroma neodvisne.
+\end{opomba}
+
+\begin{posledica}
+    Naj ima slučajni vektor $(X,Y)$ “zvezno” gostoto $f_{X,Y}: \mathbb{R}^2 \to [0, \infty)$. $X$ in $Y$ neodvisni $\iff$
+    $$
+    f_{(X, Y)}(x, y)=\phi(x) \cdot \psi(y)
+    $$
+    za skoraj vse pare $x$ in $y$ in neki nenegativni integrabilni funkciji $\phi$ in $\psi$.
+\end{posledica}
+
+\begin{proof}
+    $(\implies)$ Že vemo. 
+
+    \n $(\impliedby)$ Iz razcepa $f_{(X, Y)}(x, y)=\phi(x) \cdot \psi(y)$ sledi: 
+    $$
+    F_{(X, Y)}(x, y)=\int_{-\infty}^x \phi(u) \, d u \int_{-\infty}^y \psi(v) \, d v
+    $$
+    Zato: 
+    $$
+    \begin{aligned}
+        \lim_{y \to \infty} F_{(X,Y)}(x,y) &= \lim_{y \to \infty} \int_{-\infty}^x \phi(u) \, d u \int_{-\infty}^y \psi(v) \, d v \\
+        F_X(x)&=\int_{-\infty}^x \phi(u) \, d u \int_{-\infty}^{\infty} \psi(v) \, d v
+    \end{aligned}
+    $$
+    Posledično je po osnovnem izreku analize: 
+    $$
+    f_X(x)=\phi(x) \cdot \int_{-\infty}^{\infty} \psi(v) \, d v
+    $$
+    Simetrično je: 
+    $$
+    f_Y(y)=\int_{-\infty}^{\infty} \phi(v) \, d v  \cdot \psi(y)
+    $$
+    Ker je $\int_{\mathbb{R}^2} f_{(X, Y)}(u, v) \, d u d v=1$ sledi:
+    $$
+    \int_{-\infty}^{\infty} \phi(u) \, d u \int_{-\infty}^{\infty} \psi(v) \, d v=1
+    $$
+    Sledi: 
+    $$
+    \phi(x) \cdot \psi(y)=\phi(x) \int_{-\infty}^{\infty} \psi(v) \, d v  \int_{-\infty}^{\infty} \phi(u) \, d u \, \psi(y)=f_X(x) \cdot f_Y(y)
+    $$
+\end{proof}
 
 \end{document}

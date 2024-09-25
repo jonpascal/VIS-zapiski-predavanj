@@ -11,6 +11,11 @@
 *.cb
 *.cb2
 .*.lb
+*.bbl-SAVE-ERROR
+*.bcf-SAVE-ERROR
+*.dat
+*.script
+*.DS_Store
 
 ## Intermediate documents:
 *.dvi

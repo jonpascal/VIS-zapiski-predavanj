@@ -920,4 +920,357 @@ za $\forall k \in \{2, 3, \ldots, n\}$ in vsako $k$-terico $i_1<i_2<\ldots<i_k$.
     $$
 \end{proof}
 
+\chapter[Funkcije slučajnih spremenljivk in slučajnih vektorjev]{Funkcije slučajnih spremenljivk \\ in slučajnih vektorjev}
+
+\section{Slučajne spremenljivke}
+
+Naj bo $X$ slučajna spremenljivka in $g: \mathbb{R} \to \mathbb{R}$ zvezna bijekcija. Potem je $Y= g \circ X: \Omega \rightarrow \mathbb{R}$ tudi slučajna spremenljivka, saj je:
+$$
+\begin{aligned}
+    \{Y \leq y\} &\equiv\{\omega \in \Omega: g(X(\omega)) \leq y\} \\
+    & =\{\omega \in \Omega: g(X(\omega)) \in(-\infty, y]\} \\
+    & =\left\{\omega \in \Omega: \right. X(\omega) \in g^{-1} \left. ((-\infty, y])\right\} \\
+    & =\left\{X \in \right. \underbrace{g^{-1}((-\infty, y])}_{\text{Borelova množica}}\left. \right\} \in \mathcal{F}
+\end{aligned}
+$$
+Torej je $\{Y \leq y\}$ dogodek. Pravimo, da je \emph{$Y$ funkcija slučajne spremenljivke $X$.} Vprašanje: kako je porazdelitveno funkcijo za $Y$ ponazoriti s pomočjo $g$ in porazdelitvene funkcije za $X$? 
+
+\n Vzemimo, da je $g:(a, b) \to (c,d)$ strogo naraščujoča zvezna bijekcija, z zalogo vrednosti $(a, b)$ za $-\infty \leq a<b \leq \infty$, torej $P(X \in(a, b))=1$. Vzemimo, da je $f$ strogo naraščujoča, zvezna funkcija, z zalogo vrednosti $(a, b)$. Za $y \in (a, b)$ je: 
+$$
+\begin{aligned}
+    F_Y(y)=P(g \circ X \leq y)&=P\left(X \leq g^{-1}(y)\right) \\
+    &=F_X\left(g^{-1}(y)\right)
+\end{aligned}
+$$
+Za $y \leq a$ je $F_Y(y)=0=P(Y \leq y)$ (nemogoč dogodek), za $y \geq b$ pa $F_Y(y)=1$.
+
+\n Poglejmo si najprej diskreten primer. Če je $X$ diskretna slučajna spremenljivka z vrednostmi $\{x_i\}_{i \in I}$ in je $g$ funkcija, ki preslika množico $\{x_i\}_{i \in I}$ na množico $\{y_i\}_{i \in J}$, je $f \circ X$ diskretna slučajna spremenljivka z verjetnostno funkcijo:
+$$
+P\left(g(X)=y_j\right)=\sum_{i: g\left(x_i\right)=y_j} P\left(X=x_i\right)
+$$
+
+\begin{zgled}
+    $$
+    X \sim\left(\begin{array}{ccc}
+        -1 & 0 & 1 \\
+        \frac{1}{4} & \frac{1}{2} & \frac{1}{4}
+        \end{array}\right), \quad  g(x)=x^2
+    $$
+    Potem: 
+    $$
+    X^2 \sim \left(\begin{array}{cc}
+        0 & 1 \\
+        \frac{1}{2} & \frac{1}{2}
+        \end{array}\right)
+    $$
+    \vspace{-4pt}
+\end{zgled}
+
+\n Poglejmo si zdaj še zvezen primer. Če je $X$ slučajna spremenljivka z zvezno gostoto $f_X$, ki je od $0$ različna na interavlu $(a,b)$ in $g:(a,b) \to (c,d)$ zvezna bijekcija, potem je tudi $Y$ zvezno porazdeljena slučajna spremenljivka in velja: 
+$$
+F_{g(X)}(y)=P(g(X) \leq y)=\begin{cases} 1  &; y \geq d \\
+    F_X\left(g^{-1}(y)\right) &; y \in(c, d) \\
+    0 &; y \leq c \end{cases}
+$$
+Če je $f$ odvedljiva, sledi: 
+$$
+f_{g(X)}(y)=\frac{d}{d z} F_{g(X)}(y)=\begin{cases}
+    \frac{f_X\left(g^{-1}(y)\right)}{g^{\prime}\left(g^{-1}(y)\right)} &; y \in(c, d) \\
+    0 &; \text { sicer }
+    \end{cases}
+$$
+
+\n Podobno ravnamo v primeru, ko je $f$ strogo padajoča funkcija:
+$$
+\begin{aligned}
+    F_{g(X)}(y)&=P(g(X) \leq y) \\
+    &=P\left(X \geq g^{-1}(y)\right) \\ 
+    &=1-P\left(X<g^{-1}(y)\right) \\
+    &=1-F_X\left(g^{-1}(y)-\right)
+\end{aligned}
+$$
+Nadaljujemo podobno kot prej. Za splošno odvedljivo bijekcijo $f:(a,b) \to (c,d)$ potem velja transformacijska formula: 
+$$
+f_{g(X)}(y)=\frac{f_X\left(g^{-1}(y)\right)}{\left|g^{\prime}\left(g^{-1}(y)\right)\right|}=p_X\left(g^{-1}(y)\right) \cdot\left(g^{-1}(y)\right)^{\prime}, \quad y \in(c, d)
+$$
+
+\n Če pa funkcija ni povsod naraščujoča oz. padajoča, potem njeno definicijsko območje razdelimo na intervale monotnosti in obravnavamo vsakega posebaj. 
+
+\begin{zgled}
+    Naj bo $X \sim \operatorname{N}(0, 1)$, $f_X(x)=\frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}}$ in $\alpha, \beta \in \mathbb{R}, \alpha \neq 0$. Kakšna je porazdelitev $\alpha X + \beta$?
+
+    \n Gre za $g(X)$, kjer je $g(x)=\alpha x + \beta$. To je zvezno odvedljiva bijekcija $g:\mathbb{R} \to \mathbb{R}$, za katero $g^{-1}(z)=\frac{z-\beta}{\alpha}$ in $g^{\prime}(x)=\alpha$. Transformacijska formula nam da: 
+    $$
+    f_{a X+b}(z)=\frac{1}{|\alpha|} \cdot \frac{1}{\sqrt{2 \pi}} \cdot e^{-\frac{1}{2}\left(\frac{z-\beta}{\alpha}\right)^2}
+    $$
+    Torej $\alpha X+\beta \sim \operatorname{N}\left(\beta, \alpha^2\right)$
+\end{zgled}
+
+\begin{zgled}
+    Oglejmo si primer nemonotone funkcije $g$. Naj bo $g: \mathbb{R} \rightarrow[0, \infty), g(x)=x^2$. 
+
+    \n Ideja: $P\left(X^2 \in(c, d)\right)$ bomo izpeljali, kot $\int_c^d\ldots$ in s tem prepozanali gostoto slučajne spremenljivke $X^2$.
+
+    \n Dovolj je obravnavati primer $0<c<d<\infty$:
+    $$
+    \begin{aligned}
+        P\left(X^2 \in(c, d)\right)&=P\left(c<X^2<d\right) \\
+        &=P(\sqrt{c}<|X|<\sqrt{d}) \\
+        &=P(\sqrt{c}<X<\sqrt{d})+P(-\sqrt{d}<X<-\sqrt{c}) \\
+        &=\underbrace{\int_{\sqrt{c}}^{\sqrt{d}} f_X(x) \, d x}_{z = x^2, \, x = \sqrt{z}} +\underbrace{\int_{-\sqrt{d}}^{\sqrt{c}} f_X(x) \, d x}_{z = x^2, \, x = -\sqrt{z}} \\
+        &=\int_c^d f_X(\sqrt{z}) \frac{1}{2 \sqrt{z}} \, d z+\int_d^c f_X(-\sqrt{z}) \frac{-1}{2 \sqrt{z}} \, d z \\
+        &=\int_c^d \frac{f_X(\sqrt{z})+f_X(-\sqrt{z})}{2 \sqrt{z}}\,  d z
+    \end{aligned}
+    $$
+    Torej: 
+    $$
+    f_{X^2}(z)=\frac{f_X(\sqrt{z})+f_X(-\sqrt{z})}{2 \sqrt{z}}
+    $$
+\end{zgled}
+
+\begin{zgled}
+    Naj bo $X \sim \operatorname{N}(0, 1)$ in $Y = X^2$ (mali $g$ je torej kvadriranje). Za $y<0$ je $F_Y(y)=0=P(Y \leq y)$ nemogoč dogodek, saj $Y \geq 0$. Za $y \geq 0$ uporabimo zgornjo formulo in dobimo: 
+    $$
+    f_{X^2}(y) = f_Y(y) = \frac{f_X(\sqrt{y})+f_X(-\sqrt{y})}{2 \sqrt{y}} =\frac{\frac{1}{\sqrt{2 \pi}}e^{-\frac{y}{2}} + \frac{1}{\sqrt{2 \pi}}e^{-\frac{y}{2}}}{2 \sqrt{y}} =\frac{1}{\sqrt{2 \pi}} y^{-\frac{1}{2}} \cdot e^{-\frac{y}{2}}
+    $$
+    Torej je: 
+    $$
+    X^2 \sim \operatorname{Gama}\left(\frac{1}{2}, \frac{1}{2}\right)=\chi_1^2 
+    $$
+\end{zgled}
+
+\section{Slučajni vektorji}
+
+\begin{trditev}
+    Naj bo $X: \Omega \rightarrow \mathbb{R}^n$ slučajni vektor in $h: \mathbb{R}^n \rightarrow \mathbb{R}$ zvezna funkcija. Tedaj je $h(X)=h\left(X_1, X_2, \ldots, X_n\right)$ slučajna spremenljivka.
+\end{trditev}
+
+\begin{proof}
+    $$
+    \begin{aligned}
+        \left\{h\left(X_1, \ldots, X_n\right) \leq z\right\}&=\{h(X) \in(-\infty, z]\} \\
+        &= \left\{X \in h^{-1}((-\infty, z])\right\} \\
+        &= \left\{\omega \in \Omega \mid X(\omega) \in h^{-1}((-\infty, z])\right\}
+    \end{aligned}
+    $$
+    Tu je $h^{-1}((-\infty, z])=\left\{x\in \mathbb{R}^n \mid h(x) \in(-\infty, z]\right\}$ praslika. Ker je $h$ zvezna in je $(-\infty, z]$ zaprta v $\mathbb{R}$ je $h^{-1}((-\infty, z])$ zaprta in zato Borelova.
+\end{proof}
+
+\begin{zgled}
+    Naj ima $(X,Y)$ “zvezno” gostoto $f_{(X,Y)}$. Zanima nas porazdelitev $X+Y$ (tu interpretiramo $X+Y = h(X,Y)$ za $h: \mathbb{R}^2 \rightarrow \mathbb{R}, \, h(x, y)=x+y$)\footnote[5]{To ni bijekcija; preslikava ni injektivna, saj za $(2, 1)$ in $(1, 2)$ dobimo isti rezultat, je pa surjektivna. Zato praslika vrne vse pare $(x,y)$, za katere velja, da so enaki neki vrednosti $h(x,y)$. Recimo $h(x,y)=z$ in $z=3$. Praslika potem vrne vse pare $(x,y)$, da je $x+y=3$. V našem primeru vrne vse pare $(x,y)$, ki so $\leq z$}. Izračunajmo k.p.f. slučajne spremenljivke $X+Y$ :
+    \begin{align*}
+        P(X+Y \leq z) &= P\left((X, Y) \in h^{-1}((-\infty, z])\right) \\ 
+        &= P((X, Y) \in\{(x, y) \mid x+y \leq z\}) \\
+        &= \int_{x+y \leq z} f_{(X, Y)}(x, y) \,d x d y \\
+        &=\int_{-\infty}^{\infty} \int_{-\infty}^{z-y} f_{(X, Y)}(x, y) \, d x d y \tag{$\star$} \\
+        &=\int_{-\infty}^{\infty} \int_{-\infty}^z f_{(X, Y)}(u-y, y) \, d u d y \\
+        &=\int_{-\infty}^z \int_{-\infty}^{\infty} f_{(X, Y)}(u-y, y) \, d y d u
+    \end{align*}
+    Kjer smo v $(\star)$ vrstici vpeljali novo spremenljivko $u=x+y$. 
+
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+    
+            \definecolor{siva}{rgb}{0.8, 0.8, 0.8}
+    
+            \begin{axis}[
+                axis lines = left,
+                xlabel = $x$,
+                ylabel = $y$,
+                domain=-1:2,
+                samples=500,
+                height=5cm,
+                width=5cm,
+                xmin=-1, xmax=1.5,
+                ymin=-1, ymax=1.5,
+                xtick={},
+                ytick={},
+                xticklabels={},
+                yticklabels={},
+                axis y line=middle,
+                axis x line=middle
+            ]
+    
+            \fill[siva] (-1, 1.5) -- (1.5, -1) -- (-1,-1) -- cycle;
+
+            \draw (-1, 1.5) -- (1.5, -1);
+            \draw (-1, 0) -- (1, 0);
+            \draw (0, -1) -- (0, 1);
+        
+            \node at (0.6,0.1) {\footnotesize $z$};
+            \node at (0.1,0.6) {\footnotesize $z$};
+        
+            \end{axis}
+        \end{tikzpicture}
+    
+        \caption{$\{(x,y)  \mid x+y \leq z\}$}
+        \label{fig:7}
+    \end{figure}
+    
+    \n Sledi: 
+    $$
+    f_{X+Y}(z)=\int_{-\infty}^{\infty} f_{(X, Y)}(z-y, y) \, d y
+    $$
+    Če sta $X$ in $Y$ neodvisni dobimo:
+    $$
+    f_{X+Y}(z)=\int_{-\infty}^{\infty} f_X(z-y) \cdot f_Y(y) \,d y
+    $$
+    Slednji pravimo \emph{konvolucija} funkcij $f_X$ in $f_Y$. 
+\end{zgled}
+
+\begin{trditev}
+    Naj bosta $X$ in $Y$ neodvisni slučajni spremenljivki. $X \sim \chi^2(m)$ in $Y \sim \chi^2(n)$. Potem je: 
+    $$
+    X+Y \sim \chi^2(m+n)
+    $$
+\end{trditev}
+
+\begin{proof}
+    Vzemimo $X \sim \chi^2(m)$ in $Y \sim \chi^2(n)$. Izračunajmo $X+Y$. Ta je nenegativna (saj je $\chi^2$ negativna) in zato $f_{X+Y}(z)=0$ za $z \leq 0$. Za $z>0$ pa je: 
+    \begin{align*}
+        f_{X+Y}(z) &= \frac{1}{2^{\frac{m}{2}} \Gamma\left(\frac{m}{2}\right) \cdot 2^{\frac{n}{2}} \Gamma\left(\frac{n}{2}\right)} \int_0^{z} x^{\frac{m}{2}-1} e^{-\frac{x}{2}}(z-x)^{\frac{n}{2}-1} e^{-\frac{z-x}{2}} \, dx \\
+        &=\frac{1}{2^{\frac{m+n}{2}} \cdot \Gamma\left(\frac{m}{2}\right) \Gamma\left(\frac{n}{2}\right)} e^{-\frac{z}{2}} \int_0^z x^{\frac{m}{2}-1}(z-x)^{\frac{n}{2}-1} \, d x \tag{$\star$} \\
+        &=\frac{1}{2^{\frac{m+n}{2}} \cdot \Gamma\left(\frac{m}{2}\right) \Gamma\left(\frac{n}{2}\right)} e^{-\frac{z}{2}} z^{\frac{m+n}{2}-1} \underbrace{\int_0^1 t^{\frac{m}{2}-1} \cdot(1-t)^{\frac{n}{2}-1} \, d t}_{\beta(\frac{m}{2}, \frac{n}{2}) = \frac{\Gamma\left(\frac{m}{2}\right) \cdot \Gamma\left(\frac{n}{2}\right)}{\Gamma\left(\frac{m}{2}+\frac{n}{2}\right)}} \\
+        &=\frac{1}{2^{\frac{m+n}{2}}\Gamma\left(\frac{m+n}{2}\right)} z^{\frac{m+n}{2}-1} e^{-\frac{z}{2}} 
+    \end{align*}
+    Kjer smo v $(\star)$ vrstici vpeljali novo spremenljivko $tz=x$. Torej je: 
+    $$
+    X+Y \sim \chi^2(m+n)
+    $$
+\end{proof}
+
+\begin{posledica}
+    Naj bodo neodvisne slučajne spremenljivke $X_1, X_2, \ldots, X_m \sim \operatorname{N}(0,1)$ porazdeljene standardno normalno. Potem je $Y=X_1^2+X_2^2+\ldots+X_n^2 \sim \chi^2(n)$.
+\end{posledica}
+
+\begin{proof}
+    Vemo že, da je $X_i^2 \sim \chi^2(1)$. Posledica sledi takoj iz trdive, ter trditve da so kvadrati neodvisnih slučajnih spremenljivk med seboj neodvisni.
+\end{proof}
+
+\n V splošnem porazdelitev slučajne spremenljivke $h\left(X_1, \ldots, X_n\right)$ najpreprosteje dobimo z dopolnituijo funkcije $h: \mathbb{R}^n \rightarrow \mathbb{R}$ do zvezno diferenciabilne preslikave $g: \mathbb{R}^n \rightarrow \mathbb{R}^n$ (na primer $h(x, y)=x+y$ lahko dopolnimo do $g(x, y)=(x+y, y))$ in izračunamo porazdelitev transformacije $g(X)$.
+
+\begin{trditev}
+    Naj bo $X: \Omega \to \mathbb{R}^n$ slučajni vektor z “zvezno” gostoto $f_X:\mathbb{R}^n \to [0, \infty)$. Dalje naj bo $g: \mathbb{R}^n \to \mathbb{R}^n$ (ali $g:D \to E$ za primerni množici $D, E \subseteq \mathbb{R}^n$, kjer $P(X \in D)=1$) zvezno diferenciabilna bijekcija. Tedaj ima slučajni vektor $g(X): \Omega \to \mathbb{R}^n$ gostoto: 
+    $$
+    f_{g(X)}(z)=f\left(g^{-1}(z)\right) \left\lvert\, \det J_{g^{-1}}(z) \right\rvert =\frac{f\left(g^{-1}(z)\right)}{\left|\det J_g\left(g^{-1}(z)\right)\right|}
+    $$
+    za vse $z \in \mathbb{R}^n$ (oziroma $z \in E$).
+\end{trditev}
+
+\begin{proof}
+    Rdeča nit: $P(g(X) \in X)$ želimo izraziti kot $\int_C \ldots$, kjer bo $\ldots$ gostota:
+    \begin{align*}
+        P(g(X) \in C)&=P\left(X \in g^{-1}(C)\right) \\
+        &=\int_{g^{-1}(C)} f_X(x) \, d x \tag{$\star$}\\ 
+        &=\int_C f_X\left(g^{-1}(z)\right)\left|\det J_{g^{-1}}(z)\right| \, d z    
+    \end{align*} 
+    Kjer smo v $(\star)$ vrstici vpeljali novo spremenljivko $x=g^{-1}(z), \, d x=| \det J_{g^{-1}}(z) | d z$.
+\end{proof}
+
+\n \textbf{Zapišimo dvorazsežen primer v “tradicionalnih” oznakah:}
+
+\n Transformacijo $g(X, Y)$ zapišemo kot:
+$$
+(U, V)=(U(X, Y), V(X, Y))
+$$
+Njen inverz $g^{-1}(U,V)$ pa kot: 
+$$
+(X, Y)=(X(U, V), Y(U, V))
+$$
+Tedaj: 
+$$
+|\det J_{g^{-1}}(u, v)| = \left\lvert\left.\begin{vmatrix}
+    \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\
+    \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
+    \end{vmatrix}\right|_{(u, v)} \right\rvert
+$$
+in
+$$
+|\det J_{g}(g^{-1}(u, v))| = \left\lvert\left.\begin{vmatrix}
+    \frac{\partial u}{\partial x} & \frac{\partial u}{\partial y} \\
+    \frac{\partial v}{\partial x} & \frac{\partial v}{\partial y}
+    \end{vmatrix}\right|_{(x(u, v), y(u, v))} \right\rvert
+$$
+Transformacijska formula se tedaj glasi: 
+$$
+f_{U, V}(u, v)=f_{(X, Y)}(x(u, v), y(u, v)) \cdot \left\lvert\left.\begin{vmatrix}
+    \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\
+    \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
+    \end{vmatrix}\right|_{(u, v)} \right\rvert
+$$
+Upoštevaje $g \circ g^{-1}=\operatorname{id}$ je posledično $J_g\left(g^{-1}(u, v)\right) \cdot J_{g^{-1}}(u, v)=I$. Zgornje lahko prepišemo v: 
+$$
+f_{U, V}(u, v)=\frac{f_{(X, Y)}(x(u, v), y(u, v))}{\left\lvert\left.\begin{vmatrix}
+    \frac{\partial u}{\partial x} & \frac{\partial u}{\partial y} \\
+    \frac{\partial v}{\partial x} & \frac{\partial v}{\partial y}
+    \end{vmatrix}\right|_{(x(u, v), y(u, v))} \right\rvert}
+$$
+
+\begin{zgled}
+    ~
+
+    \begin{enumerate}
+        \item Oglejmo si transformacijo: 
+        $$
+        U=X+Y, V=Y \implies Y=V, X=U-V
+        $$
+        To pomeni $g(x, y)=(x+y, y)$ in $g^{-1}(u, v)=(u-v, v)$. 
+        $$
+        \det J_g (x,y) = \begin{vmatrix}
+            \frac{\partial u}{\partial x} & \frac{\partial u}{\partial y} \\
+            \frac{\partial v}{\partial x} & \frac{\partial v}{\partial y}
+            \end{vmatrix} = \begin{vmatrix}1 & 1 \\ 0 & 1\end{vmatrix} = 1
+        $$
+        Torej: 
+        $$
+        f_{(X+Y, Y)}(u, v)=\frac{f_{(X, Y)}(u-v, v)}{1}
+        $$
+        Gostota slučajne spremenljivke $X+Y$ je robna gostota oziroma: 
+        $$
+        f_{X+Y}(u)=\int_{-\infty}^{\infty} f_{(X, Y)}(u-v, v) \, d v
+        $$
+        \item Oglejmo si še transformacijo: 
+        $$
+        U=\frac{X}{Y}, V=Y \implies X=U V, Y=V
+        $$  
+        Pripomnimo, da je transformacija $g(x, y)=\left(\frac{x}{y}, y\right)$ definirana le na $\{Y \neq 0\}=\mathbb{R} \times \mathbb{R} \setminus \{0\}$. Razumemo lahko $g: \mathbb{R} \times \mathbb{R} \setminus\{0\} \to \mathbb{R} \times \mathbb{R} \setminus\{0\}$. Za “zvezen” slučajni vektor $(X,Y)$ seveda velja $P(Y=0)=0$ oziroma $P((X, Y) \in \mathbb{R} \times \mathbb{R} \setminus\{0\})=1$. Po transformacijski formuli velja: 
+        $$
+        f_{\left(\frac{X}{Y}, Y\right)}(u, v) = \frac{f_{(X, Y)}(u v, v)}{\left\lvert\left.\begin{vmatrix}\frac{1}{y} & * \\ 0 & 1\end{vmatrix}\right|_{y = y(u,v)}\right\rvert} =|v| f_{(X, Y)}(u v, v)
+        $$  
+        in:
+        $$
+        f_{\frac{X}{Y}}(u)=\int_{-\infty}^{\infty}|v| f_{(X, Y)}(u v, v) \, d v
+        $$
+    \end{enumerate}
+\end{zgled}
+
+\begin{trditev}
+    Naj za $X: \Omega \rightarrow \mathbb{R}^n$ velja $X \sim \operatorname{N}(\mu, \Sigma)$ ($\mu \in \mathbb{R}^n, \Sigma \in \mathbb{R}^{n \times n}$ s.p.d.) in naj bo $A: \mathbb{R}^n \to \mathbb{R}^n$ obrljiva matrika. Dalje naj bo $\nu \in \mathbb{R}^n$. Tedaj: 
+    $$
+    A X+\nu \sim \operatorname{N}\left(A \mu+\nu, A \Sigma A^{\top}\right)
+    $$
+\end{trditev}
+
+\begin{proof}
+    Imamo $g(x)=A x+\nu$ in $g^{-1}(z)=A^{-1}(z-\nu)$. $g$ je “linearna” (afina) preslikava $\implies J_g(x) \equiv A$. Transformacijska formula pove: 
+    \begin{align*}
+        f_{A X+\nu}(z)&=\frac{1}{|\det A|} f_X\left(A^{-1}(z-\nu)\right) \\
+        &=\frac{1}{\sqrt{|\det A|^2}}(2 \pi)^{-\frac{n}{2}}(\det \Sigma)^{-\frac{1}{2}} e^{-\frac{1}{2}\left\langle\Sigma^{-1}\left(A^{-1}(z - \nu)-\mu\right), A^{-1}(z-\nu)-\mu\right\rangle} \tag{$\star$} \\
+        &=(2 \pi)^{-\frac{n}{2}}\left(\det\left(A \Sigma A^{\top}\right)\right)^{-\frac{1}{2}} e^{-\frac{1}{2}\left\langle\left(A^{\top}\right)^{-1} \Sigma^{-1} A^{-1}(z-\nu-A \mu), z-\nu - A\mu\right\rangle} 
+    \end{align*}
+    V vrstici $(\star)$ velja: 
+    $$
+    \begin{aligned}
+        |\det A|=\sqrt{|\operatorname{det} A|^2}&=\sqrt{\operatorname{del} A \cdot \operatorname{det} A^{\top}}=\sqrt{\operatorname{det}\left(A A^{\top}\right)} \\
+         A^{-1}(z-\nu)-\mu&=A^{-1}\left((z-\nu)-A \mu\right)    
+    \end{aligned}
+    $$
+\end{proof}
+
+\begin{posledica}
+    Naj bo $X \sim N(\mu, \Sigma)$. Razcepimo $\Sigma=L L^{\top}$ (npr. Cholesky). Sledi, da je $X \sim L Z+\mu$, kjer je $Z \sim N\left(0, I_{n \times n}\right)$ $n$-razsežna standardna normalna porazdelitev. To je klučnega pomena za simulacijo vzorčenja.\footnote[6]{To pomeni, da lahko do katere koli normalne porazdelitve pridemo tako, da naredimo afino preslikavo s spodnje trikotno matriko in nekim vektorjem na standarni normalni porazdelitvi.}
+\end{posledica}
+
+
 \end{document}

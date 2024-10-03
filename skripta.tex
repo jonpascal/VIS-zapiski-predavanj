@@ -1272,5 +1272,245 @@ $$
     Naj bo $X \sim N(\mu, \Sigma)$. Razcepimo $\Sigma=L L^{\top}$ (npr. Cholesky). Sledi, da je $X \sim L Z+\mu$, kjer je $Z \sim N\left(0, I_{n \times n}\right)$ $n$-razsežna standardna normalna porazdelitev. To je klučnega pomena za simulacijo vzorčenja.\footnote[6]{To pomeni, da lahko do katere koli normalne porazdelitve pridemo tako, da naredimo afino preslikavo s spodnje trikotno matriko in nekim vektorjem na standarni normalni porazdelitvi.}
 \end{posledica}
 
+\chapter[Matematično upanje oz. pričakovna vrednost]{Matematično upanje oz. \\ pričakovna vrednost}
+
+\begin{definicija}
+    Naj bo $X: \Omega \rightarrow \mathbb{R}$ slučajna spremenljivka z “zvezno” gostoto $f_X$. Tedaj je \emph{pričakovana vrednost} slučajne spremenljivke $X$ definirana kot: 
+    $$
+    E(X)=\int_{-\infty}^{\infty} x f_X(x) \, d x
+    $$ 
+    za zvezne porazdelitve, če integral absolutno konvergira, t.j. $\int_{-\infty}^{\infty}|x| f_X(x) \, d x<\infty$ in:
+    $$
+    E(X)= \sum_{i} x_i P\left(X=x_i\right) 
+    $$
+    za diskretne porazdelitve, če vrsta absolutno konvergira, t.j. $\sum_{i} |x_i| P\left(X=x_i\right) < \infty$.
+
+    \n Če je $X: \Omega \rightarrow \mathbb{R}^n$ slučajni vektor, definiramo pričakovano vrednost “po komponentah”: 
+    $$
+    E\left(\begin{bmatrix}
+        X_1 \\
+        \vdots \\
+        X_n
+        \end{bmatrix}\right)=\begin{bmatrix}
+        E(X_1) \\
+        \vdots \\
+        E(X_n)
+        \end{bmatrix}
+    $$
+    Podobno velja za slučajno matriko.
+\end{definicija}
+
+\begin{zgled}
+    ~
+    
+    \begin{itemize}
+        \item Če je $X$ porazdeljena Cauchyjevo $E(X)$ ne obstaja. Če sta $X$ in $Y$ neodvisni in porazdeljeni standardno normalno, t.j. $X, Y \sim \operatorname{N}(0, 1)$ je $\frac{X}{Y}$ porazdeljena Cauchyjevo. 
+        \item $X \sim \operatorname{N}\left(\mu, \sigma^2\right) \implies E(X)=\mu$
+        \item $X \sim \operatorname{U}(a, b) \implies E(X)=\frac{a+b}{2}$
+    \end{itemize}
+\end{zgled}
+
+\begin{trditev}
+    Naj bo $X$ slučajna spremenljivka z “zvezno” gostoto $f_X$ in naj bo $g: \mathbb{R} \to  \mathbb{R}$ (ali $g:(a, b) \rightarrow(c, d)$) zvezna funkcija. Tedaj je: 
+    $$
+    E(g(X))=\int_{-\infty}^{\infty} g(x) f_X(x) \, d x
+    $$
+    če obstaja. 
+\end{trditev}
+
+\begin{proof}
+    Za primer, ko je $X: \Omega \to (a, b)$ (t.j. $P(X \in (a,b))= 1$) in je $g:(a, b) \to (c, d)$ zvezno diferenciabilna bijekcija. Vemo, da v tem primeru velja: 
+    $$
+    f_{g(X)}(z)=f_X\left(g^{-1}(z)\right)\left|\left(g^{-1}\right)^{\prime}(z)\right| \qquad \text{za} \quad z \in (c,d)
+    $$  
+    Po definiciji je tedaj: 
+    \begin{align*}
+        E(g(X))&=\int_{(c,d)} f_X\left(g^{-1}(z)\right)\left|\left(g^{-1}\right)^{\prime}(z)\right| \, d z \tag{$\star$} \\
+        &=\int_{(a, b)} g(x) f_X(x) \, d x \\
+        &=\int_a^b g(x) f_X(x) \, d x \qquad \text{za} \quad a<b
+    \end{align*}
+    Kjer smo v $(\star)$ vrstici vpeljali novo spremenljivko $x=g^{-1}(z)$.
+\end{proof}
+
+\begin{zgled}
+    Posebej izračunajmo $E(|X|)$ za “zvezno” slučajno spremenljivko $X$. Najprej izračunajmo njeno komulativno porazdelitveno funkcijo: 
+    $$
+    \begin{aligned}
+        F_{|X|}(z)&=P(|X| \leq z)=P(-z \leq X \leq z)=F_X(z)-F_X(-z) \\
+        \implies f_{|X|}(z)&=f_X(z)+f_X(-z) \qquad \text{za} \quad z>0
+    \end{aligned}
+    $$
+    Sledi: 
+    $$
+    \begin{aligned}
+        E(|X|)&=\int_0^{\infty} z \left( f_X(z)+f_X(-z) \right) \, d z \\
+        &=\int_0^{\infty} x f_X(x) \, d x+\int_0^{-\infty}(-x) f_X(x) \, (-d x) \\
+        &=\int_{-\infty}^{\infty}|x| f_X(x) \, d x
+    \end{aligned}
+    $$
+\end{zgled}
+
+\begin{posledica}
+    Za $p \neq 0$ velja: 
+    $$
+    E\left(|X|^p\right)=\int_{0}^{\infty}z^p\left(f_X(z)+f_X(-z)\right) \, d z=\int_{-\infty}^{\infty}|x|^p f_X(x) \, d x
+    $$
+\end{posledica}
+
+\begin{proof}
+    V prvi enakosti smo uporabili trditev in $F_{|X|}\left(z^p\right)= P\left(|X|^p \leq z^p\right)$ v drugi enakosti pa račun zgoraj. 
+\end{proof}
+
+\begin{trditev}
+    Naj ima slučajni vektor $(X, Y)$ “zvezno” gostoto $f_{(X, Y)}$ in naj bo $h: \mathbb{R}^2 \to \mathbb{R}$ (ali $D \to \mathbb{R}$ za $P((X, Y) \in D)=1$) zvezna funkcija. Tedaj je:
+$$
+E(h(X, Y))=\int_{\mathbb{R}^2} h(x, y) f_{(X, Y)}(x, y) \, d x d y
+$$
+\end{trditev}
+
+\begin{proof}
+    Za primer, ko je $h$ mogoče dopolniti do zveno diferenciabilne bijekcije $g: D \to E$ kot $g(x, y)=(h(x, y), k(x, y))$, kjer sta $D$ in $E$ odprti množici v $\mathbb{R}^2$. Tedaj je:
+    $$
+    f_{h(X, Y)}(u)=\int_{-\infty}^{\infty} f_{g(X, Y)}(u, v) \, d v=\int_{-\infty}^{\infty} f_{(X, Y)}\left(g^{-1}(u, v)\right)  \left| \det J_{g^{-1}}(u, v) \right| \, d v
+    $$
+    in
+    \begin{align*}
+        E(h(X, Y))&=\int_{-\infty}^{\infty} u f_{h(X, Y)}(u) \, d u \\
+        &=\int_{\mathbb{R}^2} u f_{(X, Y)}\left(g^{-1}(u, v)\right)\left| \det J_{g^{-1}}(u, v)\right| \, d u d v \tag{$\star$} \\
+        &=\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} h(x, y) f_{(X, Y)}(x, y) \, d x \,  d y    
+    \end{align*}
+    Kjer smo v $(\star)$ vrstici naredili substitucijo $(x, y)=g^{-1}(u, v)$, $(u,v) = g(x,y)$ in $d x d y=\left|\det J_{g^{-1}}(u, v)\right| d u d v$.
+\end{proof}
+
+\begin{zgled}
+    ~
+
+    \begin{itemize}
+        \item Poglejmo si $h(x, y)=x+y$:
+        $$
+        \begin{aligned}
+            E(X+Y)&=\int_{\mathbb{R}^2}(x+y) f_{(X, Y)}(x, y) \, d x d y \\
+            &=\int_{-\infty}^{\infty} x \int_{-\infty}^{\infty} f_{(X, Y)}(x, y) \, d y \, d x+\int_{-\infty}^{\infty} y \int_{-\infty}^{\infty} f_{(X, Y)}(x, y) \, d x \, d y \\
+            &=\int_{-\infty}^{\infty} x f_X(x) \, d x+\int_{-\infty}^{\infty} y f_Y(y) \, d y \\
+            &=E(X)+E(Y)
+        \end{aligned}
+        $$
+        Dokazali smo \emph{aditivnost} pričakovane vrednosti.
+        \item Poglejmo si še $h(x, y)=x y$:
+        $$
+        E(X Y)=\int_{\mathbb{R}^2} xy f_{(X, Y)}(x, y) \,d x d y
+        $$
+        Če integral absolutno konvergira. 
+    \end{itemize}
+\end{zgled}
+
+\begin{posledica}
+    Če sta $X$ in $Y$ neodvisni slučajni spremenljivki, za kateri obstajata $E(X)$ in $E(Y)$, obstaja tudi $E(XY)$ in velja: 
+    $$
+    E(X Y)=E(X) \cdot E(Y)
+    $$
+\end{posledica}
+
+\begin{proof}
+    $$
+    \begin{aligned}
+        E(|X Y|)&=\iint_{\mathbb{R}^2}|x y| f_{(X, Y)}(x, y) \, d x d y \\
+        &=\iint_{\mathbb{R}^2}|x| |y| f_X(x) f_Y(y) \,d x d y \\
+        &=\int_{\mathbb{R}}|x|  f_X(x) \, d x  \int_{\mathbb{R}}|y| \cdot f_Y(y) \,d y<\infty
+    \end{aligned}
+    $$
+    Pokazali smo obstoj. Enak račun pokaže $E(X Y)=E(X) \cdot E(Y)$.
+\end{proof}
+
+\begin{posledica}
+    Če je $X \leq Y$ (z verjetnostjo $1$) velja $E(X) \leq E(Y)$, če obstaja $E(Y)$.
+\end{posledica}
+
+\begin{proof}
+    Iz aditivnosti sledi: 
+    $$
+    E(Y)=E(X)+E(Y-X)
+    $$
+    Ker je $Y-X \geq 0$ z verjetnostjo $1$, je $E(Y-X) \geq 0$.
+\end{proof}
+
+\begin{izrek}
+    Če obstajata $E\left(X^2\right)$ in $E\left(Y^2\right)$, potem obstaja tudi $E(|X Y|)$ in velja: 
+    $$
+    E(|X Y|) \leq \sqrt{E\left(X^2\right) E\left(Y^2\right)}
+    $$
+    
+    \n To je Cauchy-Schwarzova neenakost. Enakost velja $\iff$ 
+    $$
+    Y=\pm \sqrt{\frac{E\left(Y^2\right)}{E\left(X^2\right)}} X \qquad \text{z verjetnostjo $1$.}
+    $$ 
+\end{izrek}
+
+\begin{proof}
+    Za poljubni nenegativni števili $u$ in $v$ velja: 
+    $$
+    u v \leq \frac{1}{2}\left(u^2+v^2\right) \qquad \left(\iff (u-v)^2 \geq 0 \right)
+    $$
+    Torej za nanegativni slučajni spremenljivki $U$ in $V$ velja:
+    $$
+    U V \leq \frac{1}{2}\left(U^2+V^2\right)
+    $$
+    kjer velja enačaj, le za $\omega \in \Omega$, v katerih je $U(\omega) = V(\omega)$. Če vstavimo $U=a|X|$ in $V=\frac{1}{a} |Y|$ za $a>0$, dobimo neenakost: 
+    $$
+    |X Y| \leq \frac{1}{2}\left(a^2 X^2+\frac{1}{a^2} Y^2\right)
+    $$
+    Iz $E\left(X^2\right)<\infty$ in $E\left(Y^2\right)<\infty$ ter monotnosti sledi $E(\mid X Y \mid)<\infty$, torej smo dokazali obstoj in:
+    $$
+    E(|XY|) \leq \frac{1}{2}\left(a^2 E\left(X^2\right)+\frac{1}{a^2} E\left(Y^2\right)\right)
+    $$  
+
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            \begin{axis}[
+                axis lines = center,
+                xlabel = $a$,
+                domain=0.1:5,
+                samples=500,
+                height=5cm,
+                width=8cm,
+                xmin=-0.5, xmax=3,
+                ymin=-0.5, ymax=5,
+                xtick={},
+                xticklabels={},
+                yticklabels={}
+            ]
+            
+            \addplot [black, thick] {x^2 + 1/(x^2)};
+            \addplot[mark=*] coordinates {(1,2)};
+
+            \draw[dashed] (0, 2) -- (1, 2);
+
+            \node[below] at (1, 2) {$\min$};
+
+            \end{axis}
+        \end{tikzpicture}
+
+        \caption{Graf $a^2 + \frac{1}{a^2}$}
+        \label{fig:8}
+    \end{figure}
+
+    \n Minimum desne strani (po $a \in (0, \infty)$) je dosežen pri $a^2=\sqrt{\frac{E\left(Y^2\right)}{E\left(X^2\right)}}$ in znaša: 
+    $$
+    \frac{1}{2}\left(\sqrt{\frac{E\left(Y^2\right)}{E\left(X^2\right)}}  E\left(X^2\right)+\sqrt{\frac{E\left(X^2\right)}{E\left(Y^2\right)}}  E\left(Y^2\right)\right) = \sqrt{E\left(X^2\right) E\left(Y^2\right)}
+    $$
+    torej je: 
+    $$
+    E(|X Y|) \leq \sqrt{E\left(X^2\right) E\left(Y^2\right)}
+    $$
+    Enačaj velja, če je $U = V$, torej  $a |X|= \frac{1}{a}|Y|$:
+    $$
+    |Y|=a^2 |X|=\sqrt{\frac{E\left(Y^2\right)}{E\left(X^2\right)}} |X|
+    $$
+\end{proof}
+
+\begin{posledica}
+    Če je $E\left(X^2\right)<\infty$, je $E(|X|)<\infty$ (vzamemo $Y \equiv 1$) in $E(|X|) \leq \sqrt{E\left(X^2\right)}$. 
+\end{posledica}
 
 \end{document}

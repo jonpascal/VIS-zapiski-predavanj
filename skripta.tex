@@ -1440,7 +1440,7 @@ $$
     E(|X Y|) \leq \sqrt{E\left(X^2\right) E\left(Y^2\right)}
     $$
     
-    \n To je Cauchy-Schwarzova neenakost. Enakost velja $\iff$ 
+    \n Enakost velja $\iff$ 
     $$
     Y=\pm \sqrt{\frac{E\left(Y^2\right)}{E\left(X^2\right)}} X \qquad \text{z verjetnostjo $1$.}
     $$ 
@@ -1512,5 +1512,286 @@ $$
 \begin{posledica}
     Če je $E\left(X^2\right)<\infty$, je $E(|X|)<\infty$ (vzamemo $Y \equiv 1$) in $E(|X|) \leq \sqrt{E\left(X^2\right)}$. 
 \end{posledica}
+
+\chapter[Disperzija, kovarianca in variančno-kovariančne matrike]{Disperzija, kovarianca in \\ variančno-kovariančne matrike}
+
+\section{Disperzija in standardni odklon}
+
+\begin{definicija}
+    Naj obstaja $E\left(X^2\right)$. \emph{Disperzija} oz. \emph{varianca} je definirana kot:
+    $$
+    D(X) \equiv \operatorname{Var}(X):=E\left((X-E(X))^2\right)
+    $$    
+\end{definicija}
+
+\n $D(X)$ je torej pričakovano kvadratično odstopanje od $E(X)$. Velja tudi: 
+$$
+\begin{aligned}
+    E\left((X-E(X))^2\right)&=E\left(X^2-2 E(X) X+(E(X))^2\right) \\
+    &=E\left(X^2\right)-2 E(X) E(X)+(E(X))^2 \\
+    &=E\left(X^2\right)-(E(X))^2
+\end{aligned}
+$$
+Zato je: 
+$$
+D(X)=E\left(X^2\right)-\left(E(X)\right)^2
+$$
+Če ima $X$ “zvezno” gostoto $f_X$, iz trditve o $E(g(X))$ sledi: 
+$$
+D(X)=\int_{-\infty}^{\infty}(x-E(X))^2 f_X(x) \, d x
+$$
+
+\begin{definicija}
+    \emph{Standardna deviacija} oz. \emph{standardni odklon} je definirana kot: 
+    $$
+    \sigma(X):=\sqrt{D(X)}
+    $$    
+\end{definicija}
+
+\begin{opomba}
+    Standardni odklon ima iste “enote” kot $X$. Intuitivnejša mera za odstopanje vrednost $X$ od $E(X)$ bi bila $E(|X-E(X)|)$. Razlog za to, da favoriziramo $\sigma(X)$ oz. $D(X)$ je ta, da je $D(X)$ porojena s skalarnim produktom. 
+\end{opomba}
+
+\begin{zgled}
+    ~
+
+    \begin{itemize}
+        \item $X \sim \operatorname{U}\left(-\frac{1}{2}, \frac{1}{2}\right)$: $f_X(x)=\mathbbm{1}_{\left(-\frac{1}{2}, \frac{1}{2}\right)}(x)$ in $E(X)=0$. Zato je: 
+        $$
+        D(X)=E\left(X^2\right)=\int_{\mathbb{R}} x^2 \cdot \mathbbm{1}_{\left(-\frac{1}{2}, \frac{1}{2}\right)}(x) \, d x =\int_{-\frac{1}{2}}^{\frac{1}{2}} x^2 \, d x=\frac{1}{12}
+        $$
+        \item $X \sim \operatorname{N}(0,1)$: Velja $E(X)=0$, torej: 
+        \begin{align*}
+            D(X)=E\left(X^2\right)&=\int_{-\infty}^{\infty} x^2 \frac{1}{\sqrt{2 \pi}}  e^{-\frac{x^2}{2}} \, d x \\
+            &=\sqrt{\frac{2}{\pi}} \int_0^{\infty} x^2 e^{-\frac{x^2}{2}} \, d x \tag{$\star$}\\ 
+            &=\sqrt{\frac{2}{\pi}} \int_0^{\infty} \sqrt{2 t} \cdot e^{-t} \,d t \\
+            &=\frac{2}{\sqrt{\pi}} \int_0^{\infty} t^{\frac{3}{2}-1} e^{-t} \, d t \\
+            &=\frac{2}{\sqrt{\pi}} \Gamma\left(\frac{3}{2}\right) \\
+            &=\frac{2}{\sqrt{\pi}} \frac{1}{2} \Gamma\left(\frac{1}{2}\right) \\
+            &=1
+        \end{align*}
+        Kjer smo v $(\star)$ vrstici vpeljali novo spremenljivko $t=\frac{x^2}{2}$.
+    \end{itemize}
+\end{zgled}
+
+\n \textbf{Lastnosti $D(X)$:}
+
+\begin{enumerate}
+    \item $D(X) \geq 0 \text{ in } D(X) = 0 \iff P(X=E(X))=1$, t.j.: $X:\left(\begin{array}{c}E(X) \\ 1 \end{array}\right)$.
+    \item $D(X)$ je minimum funkcije $a \mapsto E\left((X-a)^2\right)$
+    \begin{proof}
+        $$
+        \begin{aligned}
+            E\left((X-a)^2\right)&=E((X-E(X)+E(X)-a)^2) \\
+            &=D(X)+2 (E(X)-a) \underbrace{E(X-E(X))}_{=0}+\underbrace{(E(X)-a)^2}_{\text{minimalno } 0}
+        \end{aligned}
+        $$
+    \end{proof}
+    \item $D(aX + b) = a^2 D(X)$ za $a, b\in \mathbb{R}$.
+    \begin{proof}
+        $$
+        D(a X+b)=E\left((a X-a E(X))^2\right)=a^2 E\left(X-E(X)\right)^2
+        $$
+    \end{proof}
+    \item $D(X+Y)=D(X)+D(Y)$, če sta $X$ in $Y$ neodvisni: 
+    \begin{proof}
+        $$
+        \begin{aligned}
+            D(X+Y)&=E\left((X+Y)^2\right)-E(X+Y)^2 \\
+            &=D(X)+D(Y)+2 \underbrace{(E(X Y)-E(X) \cdot E(Y))}_{=0}    
+        \end{aligned}
+        $$
+    \end{proof}
+\end{enumerate}
+
+\begin{zgled}
+    ~
+
+    \begin{itemize}
+        \item $X \sim \operatorname{U}(a, b) \implies \frac{X-a}{b-a}-\frac{1}{2} \sim \operatorname{U}\left(-\frac{1}{2}, \frac{1}{2}\right)$. Vemo, da je $D\left(\frac{X-a}{b-a}-\frac{1}{2}\right)=\frac{1}{12}$, torej: 
+        $$
+        D\left(\frac{X-a}{b-a}-\frac{1}{2}\right) = \frac{1}{(b-a)^2} \cdot D(X) \implies D(X)=\frac{(b-a)^2}{12}
+        $$
+        \item $X \sim \operatorname{N}\left(\mu, \sigma^2\right) \Rightarrow \frac{X-\mu}{\sigma} \sim \operatorname{N}(0,1)$. Vemo, da je $D\left(\frac{X-\mu}{\sigma}\right)=1$, torej: 
+        $$
+        D\left(\frac{X-\mu}{\sigma}\right)=\frac{1}{\sigma^2} \cdot D(X) \implies D(X)=\sigma^2
+        $$
+    \end{itemize}
+\end{zgled}
+
+\begin{opomba}
+    Končno vemo, da je $\sigma^2$ v $\operatorname{N}\left(\mu, \sigma^2\right)$ disperzija. 
+\end{opomba}
+
+\s
+
+\n \textbf{Aproksimacija pričakovne vrednosti z disperzijo:}
+
+\n Zanima nas $E(g(X))$ za slučajno spremenljivko $X$ in realno funkcijo $g$. Če je $g$ dovoljkrat odvedljiva, jo lahko aproksimiramo:
+$$
+g(x) \approx g(\mu)+(x-\mu) \cdot g^{\prime}(\mu)+\frac{1}{2} \cdot(x-\mu)^2 \cdot g^{\prime \prime}(\mu)
+$$
+Vstavimo $\mu=E(X)$ in $X(w)$ namesto $x$, uporabimo pričakovano vrednost in dobimo: 
+$$
+E(g(X)) \approx g(E(X))+\frac{1}{2} \cdot D(X) \cdot g^{\prime \prime}(E(X))
+$$
+V praski je ta približek tipično dober, še boljše lastnosti pa imajo analogni približki $E(h(X,Y))$.
+
+\section{Kovarianca}
+
+\begin{definicija}
+    \emph{Kovarianca} slučajnih spremenljivk $X$ in $Y$ je:
+    $$
+    K(X, Y)\equiv\operatorname{Cov}(X, Y)=E((X-E (X))(Y-E (Y)))
+    $$
+    če obstaja. 
+\end{definicija}
+
+\n Če sta $X$ in $Y$ neodvisni in imata pričakovano vrednost, je $K(X,Y) = 0$.
+
+\begin{izrek}[Cauchy-Schwartzova neenakost]
+    Če obstajata $E\left(X^2\right)$ in $E\left(Y^2\right)$, potem obstaja $K(X,Y)$ in velja: 
+    $$
+    |K(X, Y)| \leq \sqrt{D(X) D(Y)}
+    $$
+    Enakost velja $\iff$
+    $$
+    \frac{X-E(X)}{\sigma(X)}=\frac{Y-E(Y)}{\sigma(Y)} \quad \text{oz.} \quad \frac{X-E(X)}{\sigma(X)}=-\frac{Y-E(Y)}{\sigma(Y)} \quad \text{z verjetnostjo 1.}
+    $$
+    V tem primeru pravimo, da sta $X$ in $Y$ skoraj gotovo linearno povezana. 
+\end{izrek}
+
+\begin{proof}
+    Izrek 2 uporabimo za $X-E(X)$ in $Y-E(Y)$ v vlogah $X$ in $Y$. 
+\end{proof}
+
+\n Pravimo, da $K(X,Y)$ meri jakost linearne povezanosti slučajnih spremenljivk $X$ in $Y$. Iz formule za $E(h(X,Y))$ v primeru vektorja z “zvezno“ gostoto $f_{(X,Y)}$ sledi: 
+$$
+K(X, Y)=\int_{\mathbb{R}^2}(x-E(X))(y-E(Y)) f_{(X, Y)}(x, y) \,d x d y
+$$
+če integral absolutno konvergira. 
+
+\n \textbf{Lastnosti $K(X,Y)$:}
+
+\begin{enumerate}
+    \item Če obstajajo $E(X)$, $E(Y)$ in $E(XY)$, obstaja tudi $K(X,Y)$ in velja: 
+    $$
+    K(X, Y)=E(X Y)-E(X) E(Y)
+    $$
+    \begin{proof}
+        Iz $(X-E(X))(Y-E(X))=X Y-E(X) \cdot Y-X \cdot E(Y)+E(X) E(Y)$ vidimo, da $K(X,Y)$ obstaja. Podoben račun pokaže zgornjo enakost. 
+    \end{proof}
+    \item $K$ je simetrična bilinearna funkcija.
+    \begin{proof}
+        Simetričnost je očitna. Linearnost je dovolj preveriti v eni spremenljivki: 
+        $$
+        \begin{aligned}
+            K\left(a X_1+b X_2, Y\right)&=E\left(\left(a X_1+b X_2-a E\left(X_1\right)-b E\left(X_2\right)\right)(Y-E(Y))\right) \\
+            &=a E\left(\left(X_1-E\left(X_1\right)\right)(Y-E(Y))\right)+ \\
+            & \hspace{3.5cm} +b E\left(\left(X_2-E\left(X_2\right)\right)(Y-E(Y))\right) \\
+            &=a K\left(X_1, Y\right)+b K\left(X_2, Y\right)
+        \end{aligned}
+        $$
+    \end{proof}
+    \item Če obstajata $E\left(X^2\right)$ in $E\left(Y^2\right)$ velja: 
+    $$
+    D(X+Y)=D(X)+2 K(X, Y)+D(Y)
+    $$
+    \item Če obstajajo $E\left(X_1^2\right), \ldots, E\left(X_n^2\right)$ velja: 
+    $$
+    \begin{aligned}
+        D\left(X_1+\cdots+X_n\right)&=\sum_{i=1}^n D\left(X_i\right)+2 \sum_{1 \leq i<j \leq n} K\left(X_i, X_j\right) \\
+        &=\sum_{1 \leq i, j \leq n} K\left(X_i, X_j\right)
+    \end{aligned}
+    $$
+    \begin{opomba}
+        Velja $K(X, X)=D(X)$.
+    \end{opomba}
+\end{enumerate}
+
+\section{Variančno-kovariančne matrike}
+
+\begin{definicija}
+    Če je $X=\left(X_1, \ldots, X_n\right)$ slučajni vektor, je njegova \emph{variančno-kovariančna matrika} matrika $\operatorname{Var}(X) \in \mathbb{R}^{n \times n}$ z elementi: 
+    $$
+    [\operatorname{Var}(X)]_{i, j}=K\left(X_i, X_j\right)
+    $$
+    To je simetrična matrika z diagonalnimi elementi $D\left(X_1\right), \ldots, D\left(X_n\right)$.
+\end{definicija}
+
+\begin{zgled}
+    Oglejmo si $\begin{bmatrix}X \\ Y\end{bmatrix} \sim \operatorname{N}\left(\begin{bmatrix}\mu_1 \\ \mu_2 \end{bmatrix}, \begin{bmatrix}\sigma_1^2 & \sigma_{12} \\ \sigma_{12} & \sigma_2^2\end{bmatrix} \right)$. Želimo izračunati $K(X,Y)$. Naj bo $A = \begin{bmatrix}1 & b \\ 0 & 1\end{bmatrix}$ za primerno število $b$. Vemo, da je:
+    $$A \begin{bmatrix}X \\ Y\end{bmatrix} = \begin{bmatrix}X +bY \\ Y\end{bmatrix} \sim \operatorname{N}\left( \begin{bmatrix}\mu_1 + b \mu_2 \\ \mu_2\end{bmatrix}, A \Sigma A^{\top}\right)$$ 
+    Tu je: 
+    $$
+    A \Sigma A^{\top}=+\begin{bmatrix}
+        \sigma_1^2+2 b \sigma_{12}+b^2 \sigma_2^2 & \sigma_{12}+b \sigma_2^2 \\
+        \sigma_{12}+b \sigma_2^2 & \sigma_2^2
+        \end{bmatrix}
+    $$
+    Naj bo $b=-\frac{\sigma_{12}}{\sigma_2^2}$. Dobimo: 
+    $$
+    A \Sigma A^{\top} = \begin{bmatrix}
+        \sigma_1^2-\frac{\sigma_{12}^2}{\sigma_2^2} & 0 \\
+        0 &  \sigma_2^2
+        \end{bmatrix}
+    $$
+    Iz razdelka o neodvisnosti sledi (za ta $b$), da sta $X+bY$ in $Y$ neodvisni. Posledično je $K(X +bY, Y) = 0$, po drugi strani pa je enaka: 
+    $$
+    K(X, Y)-\frac{\sigma_{12}}{\sigma_2^2} K(Y, Y)=K(X, Y)-\sigma_{12} \implies K(X,Y) = \sigma_{12}
+    $$
+\end{zgled}
+
+\n \textbf{Domača naloga:} Prepričaj se, da iz zgornje izpeljave sledi:
+$$
+\begin{bmatrix}
+    X \\
+    Y
+    \end{bmatrix} \sim \operatorname{N}\left(\begin{bmatrix}
+    \mu_1 \\
+    \mu_2
+    \end{bmatrix},\begin{bmatrix}
+    \sigma_1^2 & \sigma_{12} \\
+    \sigma_{12} & \sigma_2^2
+    \end{bmatrix}\right) \implies Y \sim \operatorname{N}\left(\mu_2, \sigma_2^2\right)
+$$
+
+\section{Korelacijski koeficient}
+
+\begin{definicija}
+    Če obstajata $E\left(X^2\right)$ in $E\left(Y^2\right)$, lahko definiramo \emph{Pearsonov korelacijski koeficient}: 
+    $$
+    \rho(X, Y)=\frac{K(X, Y)}{\sigma(X) \sigma(Y)} \in [-1, 1]
+    $$
+    Opazimo: 
+    $$
+    \rho(X, Y)=\frac{E((X-E(X)) (Y-E(Y)))}{\sigma(X) \sigma(Y)} = E\left(\frac{X-E(X)}{\sigma(X)} \cdot \frac{Y-E(Y)}{\sigma(Y)}\right)
+    $$
+\end{definicija}
+
+\begin{zgled}
+    Za dvorazsežno normalno porazdeljen slučajni vektor $(X,Y)$ je $\rho(X, Y)=\frac{\sigma_{12}}{\sigma_1 \sigma_2}$ natanko parameter “$\rho$” iz alternativne parametrizacije porazdelitve. 
+\end{zgled}
+
+\n Enakosti $\rho(X, Y)=1$ in $\rho(X, Y)=-1$ (oz. $|\rho(X, Y)|=1$) nastopita natanko tedaj, ko sta $X$ in $Y$ skoraj gotovo v linearni zvezi. Torej:
+$$
+\begin{aligned}
+    \rho=1 &\iff \frac{X-E(X)}{\sigma(X)}=\frac{Y-E(Y)}{\sigma(Y)} \quad \text {z verjetnostjo 1} \\
+    \rho=-1 &\iff \frac{X-E(X)}{\sigma(X)}=-\frac{Y-E(Y)}{\sigma(Y)} \quad \text {z verjetnostjo 1}
+\end{aligned}
+$$
+
+\begin{definicija}
+    Slučajni spremenljivki $X$ in $Y$ sta \emph{nekorelirani}, če je $E(XY) = E(X) \cdot E(Y)$. 
+\end{definicija}
+
+\begin{opomba}
+    ~
+
+    \begin{itemize}
+        \item Če sta $X$ in $Y$ neodvisni s pričakovano vrednostjo, sta nekorelirani. Obrat v splošnem ne drži, drži pa v primeru dvorazsežno normalno porazdeljenega slučajnega vektorja $(X,Y)$.
+        \item Če imata $X$ in $Y$ disperzijo, sta nekorelirani $\iff \rho(X,Y) = 0$.
+    \end{itemize}
+\end{opomba}
 
 \end{document}

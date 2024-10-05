@@ -1794,4 +1794,237 @@ $$
     \end{itemize}
 \end{opomba}
 
+\chapter[Pogojne porazdelitve in pogojno matematično upanje]{Pogojne porazdelitve in \\ pogojno matematično upanje}
+
+\n \textbf{Uvod:}
+
+\n Proučujemo slučajni vektor $(X, Y)$: 
+$$
+\begin{aligned}
+    &X(\text{človek}) = \operatorname{DKT}(\text{človek}) \qquad \text{je diastolični krvni tlak;} \\
+    &X(\text{človek}) = \operatorname{SKT}(\text{človek}) \qquad \text{ je sistolični krvni tlak.}
+\end{aligned}
+$$
+Zanima nas: 
+\begin{enumerate}[label=(\roman*)]
+    \item Izmerimo si $\operatorname{DKT}$, izkaže se, da je enak $80 \operatorname{mm} \operatorname{Hg}$. Zanima nas verjetnost, da je $\operatorname{SKT} \leq 120 \operatorname{mm} \operatorname{Hg}$.
+    \item Zanima nas pričakovana vrednost $\operatorname{SKT}$, pri pogoju, da je $\operatorname{DKT} = 80 \operatorname{mm} \operatorname{Hg}$.
+\end{enumerate}
+ 
+\n Vprašanje (i) bomo interpretirali kot $P(Y \leq 120 \mid X=80)$. To \emph{ni} elementarna pogojna verjetnost, ker je ulomek: 
+$$
+\frac{P(Y \leq 120 \text { in } X=80)}{P(X=80)}=\frac{0}{0}
+$$
+nedoločen zaradi zveznosti $X$. Kako bi potem pri zvezni slučajni spremenljivki $X$ definirali $P(Y \in \mathcal{B} \mid X=x)$? Ker je $\{x\}=\bigcap_{h>0}(x-h, x+h)$ postopamo takole:
+
+\begin{definicija}
+    Naj bo $\mathcal{B} \subseteq \mathbb{R}$ Borelova množica (npr. interval). Pogojna verjetnost, da $Y$ zavzame vrednost v $\mathcal{B}$, pri pogoju $X=x$, je enaka:
+    $$
+    \begin{aligned}
+        P(Y \in \mathcal{B} \mid X=x) & =\lim _{h \downarrow 0} P(Y \in \mathcal{B} \mid X \in(x-h, x+h)) \\
+        & =\lim _{h \downarrow 0} \frac{P(Y \in \mathcal{B} \text { in } X \in(x-h, x+h))}{P(X \in(x-h, x+h))}
+    \end{aligned}
+    $$
+    če ta limita obstaja. Potreben pogoj za obstoj je, da so $P(X \in(x-h, x+h))>0$ za vsa dovolj majhna števila $h$. To velja (na primer), če je $f_X$ zvezna v $x$ in $f_X(x)>0$. 
+\end{definicija}
+
+\begin{opomba}
+    Če je $X$ diskretna slučajna spremenljivka z vrednostmi $x_1, \ldots, x_n$ velja: 
+    $$
+    \left\{X \in\left(x_i-h, x_i+h\right)\right\}=\left\{X=x_i\right\}
+    $$ 
+    za vsa dovolj majhna števila $h$. Sledi, da je:
+    $$
+    \lim _{h \downarrow 0} P(Y \in \mathcal{B} \mid X \in(x-h, x+h))
+    $$ 
+    v resnici elementarna pogojna verjetnost. 
+\end{opomba}
+
+\begin{trditev}
+    Naj ima $(X,Y)$ “zvezno” gostoto $f_{(X,Y)}$ in velja:
+    \begin{enumerate}
+        \item $f_X(x) > 0$, ter $f_X$ zvezna v točki $x$;
+        \item funkcija $t \mapsto \int_{\mathbb{R}} f_{(X, Y)}(t, y) \,d y$ je zvezna v $x$. 
+    \end{enumerate}
+    Tedaj obstaja zgornja limita in je enaka: 
+    $$
+    P(y \in \mathcal{B} \mid X=x)=\int_\mathcal{B} \frac{f_{(X, Y)}(x, y)}{f_X(x)} \,d y
+    $$
+\end{trditev}
+
+\begin{proof}
+    $$
+    \frac{P(Y \in \mathcal{B} \text { in } X \in(x-h, x+h))}{P(X \in(x-h, x+h))}=\frac{\iint_{(x-h, x+h) \times \mathcal{B}} f_{(X, Y)}(t, y) \, d t d y \cdot \frac{1}{2 h}}{\int_{(x-h, x+h)} f_X(t) \,d t \cdot \frac{1}{2 h}}
+    $$
+    Imenovalec: 
+    $$
+    \begin{aligned}
+        \frac{1}{2 h} \int_{x-h}^{x+h} f_X(t) \, d t&=\frac{1}{2 h}\left(\int_{-\infty}^{x+h} f_X(t) \,d t-\int_{-\infty}^{x-h} f_X(t) \, d t\right) \\
+        &=\frac{1}{2 h}\left(F_X(x+h)-F_X(x-h)\right) \\
+        &=\frac{1}{2}\left(\frac{F_X(x+h)-F_X(x)}{h}+\frac{F_X(x)-F_X(x-h)}{h}\right)
+    \end{aligned}
+    $$
+    Iz predpostavke 1. sledi, da ta izraz konvergira k $f_X(x)$.
+
+    \n Števec:
+    $$
+    \frac{1}{2 h} \cdot \int_{x-h}^{x+h}\left(\int_{\mathcal{B}} f_{(X, Y)}(t, y) \, d y\right) d t
+    $$
+    Po izreku o srednji vrednosti in predpostavki 2. sledi, da ta izraz konvergira k integralu $\int_{\mathcal{B}} f_{(X, Y)}(x, y) \, d y$.
+\end{proof}
+
+\n Naj bo $f_X(x)>0$. Ker je $y \mapsto \frac{f_{(X, Y)}(x, y)}{f_X(x)}$ nenegativna funkcija in velja:
+$$
+\int_{\mathbb{R}} \frac{f_{(X, Y)}(x, y)}{f_X(x)} \,d y=1
+$$
+je ta funkcija gostota neke porazdelitve. Tej porazdelitvi pravimo \emph{pogojna porazdelitev} slučajne spremenljivke $Y$ pri pogoju $X=x$. Sestavljajo jo pogojne verjetnosti $P(Y \in \mathcal{B} \mid X=x)$ za Borelove množice $\mathcal{B} \subseteq \mathbb{R}$.
+
+\n Če ima $(X,Y)$ “zvezno” gostoto $f_{(X,Y)}$, je verjetnost, da $X$ zavzame tak $x$, ki zadošča predpostavkam trditve, enaka $1$. Oziroma, za:
+$$
+D=\left\{x \in \mathbb{R} \mid f_X(x)>0 \text{ in }f_X \text{ je zvezna pri } x\right\}
+$$
+velja: 
+$$
+P(X \in D)=\int_D f_X(x) \,d x=\int_{\mathbb{R}} f_X(x) \, d x=1
+$$
+Zaradi popolnosti (za teoretične namene) definiramo t.i. \emph{pogojno gostoto}:
+$$
+f_{Y \mid X}(y \mid x)=\begin{cases}
+    \frac{f_{(X, Y)}(x, y)}{f_X(x)} &;f_X \text { zvezna in pozitivna v }x \\
+    \phi_0(y) &; \text { sicer }
+    \end{cases}
+$$
+kjer je $\phi_0$ gostota neke fiksne porazdelitve na $\mathbb{R}$. Pri tej definiciji je za $\forall x \in \mathbb{R}$ funkcija $y \mapsto f_{(Y \mid X)}(y \mid x)$ gostota neke porazdelitve. Končno redefiniramo: 
+$$
+P(Y \in \mathcal{B} \mid X=x)=\int_{\mathcal{B}} f_{(Y \mid X)}(y \mid x) \, d y
+$$
+
+\begin{opomba}
+    Če sta $X$ in $Y$ neodviski, je $f_{Y\mid X}(y \mid x)= f_Y(y)$ za skoraj vse $x$. Brez privzetka zveznosti je $P(Y \in \mathcal{B} \mid X=x)=P(Y \in \mathcal{B})$. 
+\end{opomba}
+
+\begin{trditev}
+    Velja t.i. zakon popolne verjetnosti:
+    $$
+    P(Y \in \mathcal{B})=\int_{-\infty}^{\infty} P(Y \in \mathcal{B} \mid X=x) f_X(x) \, d x
+    $$
+    za zvezno porazdelitve in:
+    $$
+    P(Y \in \mathcal{B})=\sum_i P\left(Y \in \mathcal{B} \mid X=x_i\right) \cdot P\left(X=x_i\right)
+    $$
+    za diskretno porazdelitev in vsako Borelovo množico $\mathcal{B} \subseteq \mathbb{R}$.
+\end{trditev}
+
+\newpage 
+
+\begin{proof}
+    Desna stran je enaka: 
+    $$
+    \begin{aligned}
+        \int_{-\infty}^{\infty}\left(\int_{\mathcal{B}} f_{(Y \mid X)}(y \mid x) \,d y\right) f_X(x) \, d x &=\int_{-\infty}^{\infty} \int_{\mathcal{B}} \underbrace{f_{(Y \mid X)}(y \mid x) f_X(x)}_{=f_{(X,Y)}(x,y) \text{ skoraj povsod}} \, d y \, d x \\
+        &=\iint_{\mathbb{R} \times \mathcal{B}} f_{(X, Y)}(x, y) \, d x d y \\
+        &=P((X, Y) \in \mathbb{R}) \\
+        &= P(Y \in \mathcal{B})
+    \end{aligned}
+    $$
+\end{proof}
+
+\begin{zgled} 
+    Naj bo $\begin{bmatrix}X \\ Y \end{bmatrix} \sim \operatorname{N}\left(\begin{bmatrix} \mu_1 \\\mu_2 \end{bmatrix}, \begin{bmatrix} \sigma_1^2 & \sigma_{12} \\ \sigma_{12} & \sigma_2^2\end{bmatrix}\right)$. \hspace{-2.82718pt}Izračunajmo $f_{(Y \mid X)}(y, x)=\frac{f_{(X, Y)}(x, y)}{f_X(x)}$. Zapišemo:
+    $$
+    \scalebox{1}{$f_{(X, Y)}(x, y)=\frac{1}{2 \pi \sigma_1 \sigma_2 \sqrt{1-\rho^2}} \exp \left(-\frac{1}{2\left(1-\rho^2\right)}\left(\left(\frac{x-\mu_1}{\sigma_1}\right)^2-2 \rho\left(\frac{x-\mu_1}{\sigma_1}\right)\left(\frac{y-\mu_2}{\sigma_2}\right)+\left(\frac{y-\mu_2}{\sigma_2}\right)^2\right)\right)$}
+    $$
+    $$
+    \begin{aligned}
+        f_X(x)&=\frac{1}{\sqrt{2 \pi}} \frac{1}{\sigma_1} \exp\left(-\frac{1}{2 \sigma_1^2}\left(x-\mu_1\right)^2\right) \\
+        &=\frac{1}{\sqrt{2 \pi}} \frac{1}{\sigma_1} \exp\left(-\frac{1}{2\left(1-\rho^2\right)}\left(\left(1-\rho^2\right)\left(\frac{x-\mu_1}{\sigma_1}\right)^2\right)\right)    
+    \end{aligned}
+    $$
+    Sledi:
+    $$
+    \scalebox{0.9}{$\frac{f_{(X, Y)}(x, y)}{f_X(x)}=\frac{1}{\sqrt{2 \pi}} \frac{1}{\sigma_2 \sqrt{1-\rho^2}} \exp\left({-\frac{1}{2\left(1-\rho^2\right)}}\left( \vphantom{\rho^2\left(\frac{x-\mu_1}{\sigma_1}\right)^2}\right. \right. \underbrace{\rho^2\left(\frac{x-\mu_1}{\sigma_1}\right)^2-2 \rho \frac{x-\mu_1}{\sigma_1} \frac{y-\mu_2}{\sigma_2}+\left(\frac{y-\mu_2}{\sigma_2}\right)^2}_{=\left(\frac{y-\mu_2}{\sigma_2}-\rho \frac{x-\mu_1}{\sigma_1}\right)^2} \left. \left. \vphantom{\rho^2\left(\frac{x-\mu_1}{\sigma_1}\right)^2} \right)\right)$}
+    $$
+    Prepoznamo gostoto porazdelitve $ (Y \mid X=x) \sim \operatorname{N}\left(\mu_2+\rho \sigma_2 \frac{x-\mu_1}{\sigma_1}, \sigma_2^2\left(1-\rho^2\right)\right)$.
+\end{zgled}
+
+\begin{definicija}
+    \emph{Pogojna pričakovana vrednost sličajne spremenljivke $Y$, pogojeno na $X=x$} je pričakovana vrednost pogojne porazdelitve $(Y \mid X=x)$. V primeru, ko ima $(X,Y)$ “zvezno” gostoto, to pomeni:
+    $$
+    E(Y \mid X=x)=\int_{-\infty}^{\infty} y f_{(Y \mid X)}(y \mid x)\, d y
+    $$
+\end{definicija}
+
+\begin{opomba}
+    Velja tudi: 
+    $$
+    E(g(Y) \mid X=x)=\int_{-\infty}^{\infty} g(y) f_{(Y \mid X)}(y \mid x) \, d y
+    $$
+\end{opomba}
+
+\begin{izrek}
+    Velja zakon popolne pričakovane vrednosti:
+    $$
+    E(g(Y))=\int_{-\infty}^{\infty} E(g(Y) \mid X=x) f_X(x)\, d x
+    $$
+\end{izrek}
+
+\begin{proof}
+    Desna stran se glasi:
+    $$
+    \begin{aligned}
+        \int_{-\infty}^{\infty}\left(\int_{-\infty}^{\infty} g(y) f_{(Y \mid X)}(y \mid x)\,  d y\right) f_X(x) \, d x&=\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} g(y) f_{(X, Y)}(x, y) \, d x \, d y \\
+        &=\int_{-\infty}^{\infty} g(y) f_Y(y) \, d y \\
+        &=E(g(Y))
+    \end{aligned}
+    $$
+\end{proof}
+
+\begin{definicija}
+    \emph{Pogojna pričakovana vrednost} $E(Y \mid X)$ je \emph{slučajna spremenljivka}, definirana (na istem verjetnostnem prostoru) kot: 
+    $$
+    E(Y \mid X)(\omega)=E(Y \mid X=X(\omega))
+    $$
+\end{definicija}
+
+\begin{opomba}
+    Velja tudi: 
+    $$
+    E(g(Y))=\int_{-\infty}^{\infty} E(g(Y) \mid X=x) f_X(x) \, d x
+    $$
+\end{opomba}
+
+\n Če pišemo $g(x)=E(Y \mid X=x)$, je $E(Y \mid X)=g(X)$ transformacija slučajne spremenljivke $X$. Sledi:
+
+\begin{posledica}
+    Za slučajno spremenljivko $E(g(Y) \mid X)$ velja: 
+    $$
+    E(E(g(Y) \mid X))=E(g(Y))
+    $$
+\end{posledica}
+
+\begin{proof}
+    $$
+    \begin{aligned}
+        E(E(Y \mid X))&=E(g(X)) \\
+        &=\int_{-\infty}^{\infty} g(x) f_X(x) \, d x \\
+        &=\int_{-\infty}^{\infty} E(Y \mid X=x) f_X(x) \, d x \\
+        &=E(Y)
+    \end{aligned}
+    $$    
+\end{proof}
+
+\n Pravimo, da je $E(Y \mid X)$ najboljši približek za $Y$, če “poznamo $X$”. 
+
+\begin{zgled}[nadaljevanje]
+    Za $\begin{bmatrix}X \\ Y \end{bmatrix} \sim \operatorname{N}\left(\begin{bmatrix} \mu_1 \\\mu_2 \end{bmatrix}, \begin{bmatrix} \sigma_1^2 & \sigma_{12} \\ \sigma_{12} & \sigma_2^2\end{bmatrix}\right)$ kot prej je:
+    $$
+    (Y \mid X=x) \sim \operatorname{N}\left(\mu_2+\rho \sigma_2 \frac{x-\mu_1}{\sigma_1}, \sigma_2^2\left(1-\rho^2\right)\right)
+    $$
+    Sledi, da je $E(Y \mid X=x)=\mu_2+\rho \sigma_2^2 \frac{x-\mu_1}{\sigma_1}$ in zato: 
+    $$
+    E(Y \mid X)=\mu_2+\rho \sigma_2 \frac{X-\mu_1}{\sigma_1}
+    $$
+    To funkcijo imenujemo \emph{regresijska funkcija}.
+\end{zgled}
+
 \end{document}

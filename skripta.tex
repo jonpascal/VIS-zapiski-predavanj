@@ -77,6 +77,9 @@
 \newtheorem{trditev}{Trditev}
 
 \theoremstyle{plain}
+\newtheorem{lema}{Lema}
+
+\theoremstyle{plain}
 \newtheorem{posledica}{Posledica}
 
 \theoremstyle{remark}
@@ -2026,5 +2029,187 @@ $$
     $$
     To funkcijo imenujemo \emph{regresijska funkcija}.
 \end{zgled}
+
+\chapter[Momenti in momentno rodovna funkcija]{Momenti in momentno \\ rodovna funkcija}
+
+\section{Momenti}
+
+\begin{definicija}
+    Naj bo $k \in \mathbb{N}$ in $a \in \mathbb{R}$. \emph{Moment} slučajne spremenljivke $X$ \emph{reda $k$ glede na a} je:
+    $$
+    m_k(a)=E\left((X-a)^k\right)
+    $$
+    če obstaja, t.j. $E\left(|X-a|^k\right)<\infty$.   
+\end{definicija}
+
+\n Za $a$ običajno vzamemo: 
+\begin{enumerate}
+    \item $a=0$: $z_k=m_k(0)=E\left(X^k\right)$; $k$\emph{- ti začetni moment}. 
+    \item $a=E(X)$: $m_k=m_k(E(X))=E\left((X-E(X))^k\right)$; $k$\emph{-ti centralni moment}.
+\end{enumerate}
+
+\n Očitno je $z_1=m_1(0)=E(X)$ in $m_2=D(X)$. 
+
+\begin{trditev}
+    Če obstaja $m_n(a)$, potem obstaja tudi $m_k(a)$ za vsak $k<n$.
+\end{trditev}
+
+\begin{proof}(samo zvezen primer)
+    \begin{align*}
+        \int_{-\infty}^{\infty}|x-a|^k f(x) \, d x&=\underbrace{\int_{|x-a| \leq 1}|x-a|^n f(x)}_{\leq 1} \, d x+\int_{|x-a|>1}\underbrace{|x-a|^k f(x)}_{\leq |x-a|^n f(x)} \, d x \\
+        &\leq 1+E\left(|X-a|^n\right) \\
+        & <\infty
+    \end{align*}
+    saj $m_n(a)$ obstaja.
+\end{proof}
+
+\begin{posledica}
+    Če obstaja $E\left(X^2\right)$, obstaja tudi $D(X)$.
+\end{posledica}
+
+\begin{trditev}
+    Če obstaja moment $m_n(a)$ za nek $a \in \mathbb{R}$, potem obstajajo tudi $m_n(b)$ za vse $b \in \mathbb{R}$.
+\end{trditev}
+
+\begin{proof}
+    \begin{align*}
+        E\left(|X-b|^n\right)&=E\left(|X-a+a-b|^n\right) \\
+        &\leq E\left(\left( | x-a|+|a-b|\right)^n\right) \\
+        &=\sum_{k=0}^n\binom{n}{k}|a-b|^{n-k} E \left(| x-a|^k\right) \\
+        &<\infty
+    \end{align*}
+    saj $E\left(|X|^k\right) < \infty$ po prejšnji trditvi.
+\end{proof}
+
+\begin{posledica}
+    Če obstaja $m_n(a)$, je:
+    $$
+    m_n(b)=\sum_{k=0}^n\binom{n}{k}(a-b)^{n-k} E\left((X-a)^k\right)
+    $$
+\end{posledica}
+
+\n \textbf{Motivacija za študij momentov:}
+
+\n Denimo, da imamo porazdelitev, ki ima vse zaćetne momente $z_k=m_k(0)=E\left(X^k\right)$ (torej obstajajo vsi momenti). Ali lahko iz njih “rekonstruiramo” celotno porazdelitev. Drugače povedano: če poznamo $E\left(X^k\right)$, ali potem poznamo vse verjetnosti $P(X \in \mathcal{B})$?   
+
+\n Sorodno vprašanje: če za slučajni spremenljivki $X$ in $Y$ velja $E\left(X^k\right)=E\left(Y^k\right)$, ali potem velja $P(X \in \mathcal{B})=P(Y \in \mathcal{B})$ za vse $\mathcal{B}$.
+
+\begin{izrek}
+    Naj bosta $X$ in $Y$ slučajni spremenljivki z vsemi momenti in naj vrsti:
+    $$
+    \sum_{k=0}^{\infty} \frac{1}{k!} E\left(X^k\right) t^k \quad \text{in} \quad \sum_{k=0}^{\infty} \frac{1}{k!} E\left(Y^k\right) t^k
+    $$ 
+    konvergirata za nek $t>0$. V tem primeru sta porazdelitvi $X$ in $Y$ enolično določeni. Če velja $E\left(X^k\right)=E\left(Y^k\right) \, \forall k$ sta $X$ in $Y$ enako porazdeljeni. To pomeni: 
+    $$
+    P(X \in \mathcal{B})=P(Y \in \mathcal{B})
+    $$ 
+    za vse Borelove množice $\mathcal{B}$ in 
+    $$
+    F_X(x)=F_Y(x)
+    $$
+    za vsa števila $x \in \mathbb{R}$. 
+\end{izrek}
+
+\begin{opomba}
+    To pomeni, da je (pri določenih predpostavkah) komulativna porazdelitvena funkcija $F_X: \mathbb{R} \to [0,1]$ določena s števnim naborom števil. 
+\end{opomba}
+
+\section{Momentno rodovna funkcija}
+
+\begin{definicija}
+    \emph{Momentno rodovna funkcija} slučajne spremenljivke $X$ je funkcija: 
+    $$
+    t \mapsto M_X(t)=E\left(e^{t  X}\right)
+    $$
+    za tiste $t \in \mathbb{R}$, za katere obstaja matematično upanje, t.j.: $E\left(e^{t X}\right)<\infty$. 
+\end{definicija}
+
+\n Za $t \neq 0$ je $g(x) = e^{tx}$ zvezno odvedljiva bijekcija $g:\mathbb{R} \to (0, \infty)$ in za slučajno spremenljivko $X$ z “zvezno” gostoto $f_X$ je: 
+$$
+M_X(t)=\int_{-\infty}^{\infty} e^{t x} f_X(x) \, d x
+$$
+kjer integral konvergira. To je \emph{Laplaceova transformacija} funkcije $f_X$.
+
+\n Če je $X$ diskretna slučajna spremenljivka z vrednostmi $\{x_i\}_{i}$ je: 
+$$
+M_X(t)=\sum_i e^{t x_i} P\left(X=x_i\right)
+$$
+
+\begin{izrek}
+    Naj obstaja $\delta > 0$, da je $M_X(t)<\infty$, za vse $t \in(-\delta, \delta)$. Potem je $M_X$ neskončnokrat zvezno odvedljiva in vsi začetni momenti obstajajo: 
+    $$
+    \begin{aligned}
+        & z_k=E\left(X^k\right)=M_X^{(k)}(0) \quad \text {za vse} \quad  k \in \mathbb{N} & \\
+        & M_X(t)=\sum_{k=0}^{\infty} \frac{z_k}{k !} t^k \quad \text{za vse} \quad {t \in(-\delta, \delta)} &
+    \end{aligned}
+    $$
+    To pomeni, da je $M_X$ analitična. Porazdelitev slučajne spremenljivke $X$ je natančno določena z momenti. 
+\end{izrek}
+
+\begin{zgled}
+    Naj bo $X \sim \operatorname{N}(0,1)$. Tedaj je: 
+    $$
+    \begin{aligned}
+        M_{\operatorname{N}(0,1)}(t)=\int_{-\infty}^{\infty} e^{t x} \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}} \, d x \\
+        &=\int_{-\infty}^{\infty} \frac{1}{\sqrt{2 \pi}} e^{-\frac{1}{2}(x-t)^2} e^{-\frac{t^2}{2}} \, d x \\
+        &=e^{-\frac{t^2}{2}} \int_{-\infty}^{\infty} \underbrace{\frac{1}{\sqrt{2 \pi}} e^{-\frac{1}{2}(x-t)^2}}_{f_{\operatorname{N}(t,1)}} \, d x \\
+        &=e^{-\frac{t^2}{2}}
+    \end{aligned}
+    $$
+\end{zgled}
+
+\begin{trditev}
+    $$
+    M_{a X+b}(t)=e^{b t} \, M_X(a t) \quad \text{za} \quad a \neq 0, b \in \mathbb{R}
+    $$
+\end{trditev}
+
+\begin{proof}
+    $$
+    \begin{aligned}
+        M_{a X+b}(t)&=E\left(e^{t(a X+b)}\right) \\
+        &=E\left(e^{(a t) X} \, e^{b t}\right) \\
+        &=e^{b t} \, M_X(a t)
+    \end{aligned}
+    $$
+\end{proof}
+
+\begin{zgled}
+    $$
+    M_{\operatorname{N}\left(\mu, \sigma^2\right)}(t)=M_{\sigma \operatorname{N}(0,1)+\mu}(t)=e^{\mu t} e^{\frac{\sigma^2 t^2}{2}}
+    $$
+\end{zgled}
+
+\begin{trditev}
+    Če sta $X$ in $Y$ neodvisni slučajni spremenljivki velja:
+    $$
+    M_{X+Y}(t)=M_X(t) M_Y(t)
+    $$
+\end{trditev}
+
+\begin{lema}
+    Če sta $X$ in $Y$ neodvisni slučajni spremenljivki in sta $g$ in $h$ poljubni zvezni funkciji, sta tudi $g(X)$ in $h(Y)$ neodvisni slučajni spremenljivki. 
+\end{lema}
+
+\begin{proof}[Dokaz leme]
+    Za Borelovi množici $\mathcal{C}$ in $\mathcal{D}$:
+    \begin{align*}
+        P(g(X) \in \mathcal{C} \text { in } h(Y) \in \mathcal{D})&=P\left(X \in g^{-1}(\mathcal{C}) \text { in } Y \in h^{-1}(\mathcal{D})\right) \\
+        &=P\left(X \in g^{-1}(\mathcal{C})\right) P\left(Y \in h^{-1}(\mathcal{D})\right) \tag{$\star$}\\
+        &=P(g(X) \in \mathcal{C}) P(h(Y) \in \mathcal{D})
+    \end{align*}
+    Kjer smo v $(\star)$ vrstici uporabili neodvisnost $X$ in $Y$. Upoštevali smo še dejstvo, da so praslike Borelovih množic Borelove množice.
+\end{proof}
+
+\begin{proof}[Dokaz trditve]
+    \begin{align*}
+        M_{X+Y}(t)&=E\left(e^{t (X+Y)}\right) \\
+        &=E\left(e^{t X} \, e^{t  Y}\right) \tag{$\star$} \\
+        &=E\left(e^{t X}\right) E\left(e^{tY}\right) \\
+        &=M_X(t) \, M_Y(t)
+    \end{align*}
+    Kjer smo v $(\star)$ vrstici upoštevali neodvisnot po lemi 1.
+\end{proof}
+
 
 \end{document}
